@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Yuna06</title><link href="yuna06.github.io/" rel="alternate"></link><link href="yuna06.github.io/feeds/all.atom.xml" rel="self"></link><id>yuna06.github.io/</id><updated>2019-03-25T18:00:00+09:00</updated><entry><title>Tea and Fermentation</title><link href="yuna06.github.io/tea_fermentation.html" rel="alternate"></link><published>2019-03-25T18:00:00+09:00</published><updated>2019-03-25T18:00:00+09:00</updated><author><name>yuna06</name></author><id>tag:None,2019-03-25:yuna06.github.io/tea_fermentation.html</id><summary type="html">&lt;p&gt;お茶と発酵の関係について&lt;/p&gt;</summary><content type="html">&lt;h1&gt;ブログのタイトル&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Yuna06 - Fermentation</title><link href="yuna06.github.io/" rel="alternate"></link><link href="yuna06.github.io/feeds/fermentation.atom.xml" rel="self"></link><id>yuna06.github.io/</id><updated>2019-03-25T18:00:00+09:00</updated><entry><title>Tea and Fermentation</title><link href="yuna06.github.io/tea_fermentation.html" rel="alternate"></link><published>2019-03-25T18:00:00+09:00</published><updated>2019-03-25T18:00:00+09:00</updated><author><name>yuna06</name></author><id>tag:None,2019-03-25:yuna06.github.io/tea_fermentation.html</id><summary type="html">&lt;p&gt;お茶と発酵の関係について&lt;/p&gt;</summary><content type="html">&lt;h1&gt;ブログのタイトル&lt;/h1&gt;
 &lt;ul&gt;
 &lt;li&gt;List&lt;/li&gt;
 &lt;li&gt;List&lt;/li&gt;
@@ -42,11 +42,4 @@
 紅茶の場合は摘みたてのお茶が生乾きのうちによく揉みます。こうすることによって、茶葉の酸化酵素を絞りだし、空気との反応で酸化発酵をすることができます。
 &lt;br&gt;
 酸化発酵は茶葉中のカテキン、ペクチン、葉緑素に対して起こり、紅茶の香り・味・コク・紅色のベースを作ることにつながっています。
-&lt;/p&gt;</content><category term="fermentation"></category></entry><entry><title>$YOUR_POST_TITLE</title><link href="yuna06.github.io/0210first_post.html" rel="alternate"></link><published>2017-02-10T23:00:00+09:00</published><updated>2017-02-10T23:00:00+09:00</updated><author><name>yourname</name></author><id>tag:None,2017-02-10:yuna06.github.io/0210first_post.html</id><summary type="html">&lt;p&gt;ブログの要約&lt;/p&gt;</summary><content type="html">&lt;h1&gt;ブログのタイトル&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;List&lt;/li&gt;
-&lt;li&gt;List&lt;/li&gt;
-&lt;li&gt;List&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="pelican"></category><category term="python"></category></entry></feed>
+&lt;/p&gt;</content><category term="fermentation"></category></entry></feed>
