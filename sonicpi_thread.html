@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>$YOUR_POST_TITLE</title>
+        <title>Sonic Piスレッド</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -13,37 +13,81 @@
                     <li><a href="/category/fermentation.html">fermentation</a></li>
                     <li><a href="/category/foxdot.html">foxdot</a></li>
                     <li><a href="/category/genome.html">genome</a></li>
-                    <li class="active"><a href="/category/memo.html">Memo</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/0210first_post.html" rel="bookmark"
-           title="Permalink to $YOUR_POST_TITLE">$YOUR_POST_TITLE</a></h1>
+        <a href="/sonicpi_thread.html" rel="bookmark"
+           title="Permalink to Sonic Piスレッド">Sonic Piスレッド</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-02-10T23:00:00+09:00">
-                Published: Fri 10 February 2017
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/yourname.html">yourname</a>
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/memo.html">Memo</a>.</p>
-<p>tags: <a href="/tag/pelican.html">pelican</a> <a href="/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->      <h1>ブログのタイトル</h1>
-<ul>
-<li>List</li>
-<li>List</li>
-<li>List</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)</span>
-</pre></div>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>スレッドとは？</h3>
+
+<p style="margin-bottom:2em;">
+Sonic Piにおける、スレッドの意味合いを理解しておきましょう。
+<br>
+ズバリ、再生ボタンを押して生成されるもの、それがスレッドです。再生ボタンを押すごとに新しいスレッドが生成されるので、音をどんどん重ねていくことができるわけですね。
+</p>
+
+<p style="margin-bottom:2em;">
+最初のうちはピンと来づらいかもしれませんが、スレッドはSonic Piの中でも最も重要なブロックの一つです。
+</p>
+
+<p style="margin-bottom:2em;">
+スレッドの範囲（スコープと呼びます）を指定することで、ある設定が及ぶ範囲を他の部分から分けることができます。
+</p>
+
+<p style="margin-bottom:2em;">
+例を使って説明します。<code>ex1</code>を実行すると、<code>use_synth</code>が<code>in_thread</code>の中にだけ反映されていることがわかると思います。
+
+<pre>
+# ex1
+play 50
+sleep 1
+
+in_thread do
+  use_synth :tb303
+  play 50
+end
+
+sleep 1
+play 50
+</pre>
+</p>
+
+<p style="margin-bottom:2em;">
+また、<code>ex2</code>では<code>loop do</code>が<code>in_thread</code>にネストされているので、２つ目のLoopも問題なく実行することができます。
+<pre>
+# ex2
+in_thread do
+  loop do
+    sample :drum_heavy_kick
+    sleep 1
+  end
+end
+
+loop do
+  use_synth :fm
+  play 40, release: 0.2
+  sleep 0.5
+end
+</pre>
+</p>
     </div><!-- /.entry-content -->
 
   </article>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>マルコフ連鎖を使ってSonic PiでBeatを作ろう。</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/sonicpi_markov.html" rel="bookmark"
+           title="Permalink to マルコフ連鎖を使ってSonic PiでBeatを作ろう。">マルコフ連鎖を使ってSonic PiでBeatを作ろう。</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>Beatとは何か？</h3>
+
+<p style="margin-bottom:2em;">
+Beatを手打ちでなく、コンピュータに自動で決定させるときは、Beatがデータとしてどのような本質を持っているのか考える必要があります。
+</p>
+
+<h3>"インターバル配列"</h3>
+
+<p style="margin-bottom:2em;">
+私は、Beatは音の"インターバルの配列"だと考えています。人工知能にこの"インターバルの配列"をある条件に沿って自動生成させれば、音楽的なリズムを演奏させることができます。
+<p style="margin-bottom:2em;">
+例えば、下のような<code>sleep</code>の値がランダムな（"インターバル配列"がランダム）スネアを聞いてみましょう。
+<pre>
+live_loop :randomized_snare do
+  sample :sn_dolf
+  sleep rand(0.0..1.0)
+end
+</pre>
+</p>
+
+<h3>インターバルのみの限界</h3>
+<p style="margin-bottom:2em;">
+どうですか？はっきり言って、あまり音楽的ではないと思いませんか？なぜそのように感じるかというと、リズムの本質を作る最小単位が、一つ一つの"インターバル"ではなく、それらが多数集まって作られる、グループ（"インターバル配列"のかたまり）であると考えられるからです。"インターバル配列"のかたまりがリズムにおける最小単位で、"インターバル"一つ一つはその要素に過ぎないと考えられます。
+</p>
+
+<h3>"インターバル配列"のかたまり</h3>
+<p style="margin-bottom:2em;">
+例えるならば、"インターバル"は一つの文字（"あ"..etc）"インターバル配列"のかたまりは単語（"りんご"..etc）に例えられます。先ほど試した音楽は、ランダムな文字を出力しているだけなので、"あがたひむふぇぼ..."のように意味のわからないものになります。
+</p>
+
+<p style="margin-bottom:2em;">
+では次の例をみていきましょう。これは単語単位での音楽生成を行なったものです。
+<pre>
+T = 4.0 # To make the durations more readable and use a sort of time signature
+
+# Collection of pattern "atoms" or "rhythm words"
+patterns = [
+    (bools, 1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0),   # Kick / C
+    (bools, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0)    # Snare / G
+]
+
+live_loop :kicks do
+    sample :bd_mehackit if patterns[0].tick
+    sleep T/16   # 16 is the total length of the pattern or its resolution
+end
+
+live_loop :snares do
+    sample :sn_dolf if patterns[0].tick
+    sleep T/16   # 16 is the total length of the pattern or its resolution
+end
+</pre>
+最初の例より、しっかりしたリズムを持っていますね、しかし単調すぎてやはり音楽性は乏しいです。これは、例えると、"りんごりんごりんごきのこ..."のように、単語を未秩序に羅列しているだけで、文になっていないようなものです。どうしたら、音楽の文法を記述し意味のある文を作ることができるのでしょうか？
+</p>
+
+<h3>音楽の文法をプログラミングする</h3>
+<p style="margin-bottom:2em;">
+面白い音楽では、しばしば、リズムに限らずパターンがよく変化します。コーディングすべきことは<font color="red">複数のパターンを選び、開始と終了のポイントを決定する</font>ことです。次の例をみてみましょう。
+<pre>
+T = 4.0
+
+kick_patterns = [
+  (bools, 1,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0), # Kick Pattern 1 / C
+  (bools, 1,0,0,0, 0,0,1,0, 0,1,1,0, 0,1,1,0) # Kick Pattern 2 / C
+].ring
+
+snare_patterns = [
+  (bools, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0), # Snare Pattern 1 / G
+  (bools, 1,0,1,0, 1,0,0,0, 0,0,0,0, 1,0,1,0)  # Snare Pattern 2 / G
+].ring
+
+live_loop :kicks do
+  pat = kick_patterns.choose # randomly select pattern
+  pat.length.times do
+    sample :bd_mehackit if pat.tick
+    sleep T/16
+  end
+end
+
+live_loop :snares do
+  pat = snare_patterns.choose # randomly select pattern
+  pat.length.times do
+    sample :sn_dolf if pat.tick
+    sleep T/16
+  end
+end
+</pre>
+どうでしょうか？シンプルですが、リズムにバラエティーが出てきましたね。
+<br>
+コードの説明をしておきましょう。普通のRubyではみられない、Sonic Pi特有のものもあります。まず、
+<pre>
+(bools, 1,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0)
+</pre>
+ですが、これは、<code>bools</code>と書くことで、以下の、1がTrue、0がFalseを表すような配列を作ることができます。この真偽の配列がのちに、beatを流すのか、休符となるのかを決定していきます。<code>pat.tick</code>の部分で、一つ一つTrue or Falseを取り出していっています。Trueであればサンプルを再生します。
+</p>
+
+<h3></h3>
+<p style="margin-bottom:2em;">
+<pre>
+T = 4.0
+
+# State machine utility functions
+define :markov do |a, h| h[a].sample; end # Chooses the next state at  random from hash
+define :g do |k| get[k]; end # simplified root note in scale getter
+define :s do |k, n| set k, n; end # simplified root note setter
+define :mnote do |key,chain| s key, (markov (g key), chain); g key; end
+
+set :k, 0
+set :s, 0
+
+K = {
+  0 => [0,1],
+  1 => [0,1]
+}
+
+S = {
+  0 => [0,0,0,0, 0,0,0,1], # 1/8 chance of choosing snare pattern 2
+  1 => [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1] # 1/16 chance of choosing snare pattern 2
+}
+
+kick_patterns = [
+  (bools, 1,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0), # Kick Pattern 1 / C
+  (bools, 1,0,0,0, 0,0,1,0, 0,1,1,0, 0,1,1,0) # Kick Pattern 2 / C
+].ring
+
+snare_patterns = [
+  (bools, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0), # Snare Pattern 1 / G
+  (bools, 1,0,1,0, 1,0,0,0, 0,0,0,0, 1,0,1,0)  # Snare Pattern 2 / G
+].ring
+
+live_loop :kicks do
+  pat = kick_patterns[mnote :k, K] # markov select pattern
+  pat.length.times do
+    sample :bd_mehackit if pat.tick
+    sleep T/16
+  end
+end
+
+live_loop :snares do
+  pat = snare_patterns[mnote :s, S] # markov select pattern
+  pat.length.times do
+    sample :sn_dolf if pat.tick
+    sleep T/16
+  end
+end
+</pre>
+</p>
+
+<p style="margin-bottom:2em;">
+コードの説明をしていきます。<code>pat = kick_patterns[mnote :k, K]</code>でマルコフモデルに従った、リズムパターンの選択を行なっています。:kでキーの設定、Kでchainでマルコフモデルをかける、配列を指定しています。<code>markov</code>関数定義のなかのhにあたるものです。
+<br>
+<code>mnote</code>の定義を見ていきましょう。
+<code>.sample</code>はリストから無作為に要素を抜き出す、Rubyデフォルトのメソッドです。
+<br>
+setとgetはTime Stateを扱う、Sonic Pi特有のメソッドです。詳しくは<a href="https://yuna06.work/2019/01/24/set%E3%81%A8get-sonic-pi/">こちら</a>をどうぞ。
+<br>
+<code>pat = kick_patterns[mnote :k, K]</code>でやっていることを日本語で説明すると、kという値を与えると（初期値が０）、Kのモデルに従って、(0,1それぞれから、0,1に移動する)ランダムに次の値に変化する（この部分がマルコフモデル）値を返す。0か1を返すので、0ならば、pattern1が演奏されるし、1ならば、pattern2が再生される。
+<br>
+といった具合でしょうか？
+<br>
+<code>S</code>では、リスト内の1の比率を減らすことによって、0から１に移動する確率を8分の１、1から1に移動する確率を16分の１に制限しています。KやSを調整させるだけで、確率モデルを簡単に書き換えられるわけです。
+</p>
+
+<h3>ハーモニーに応用しよう</h3>
+<p style="margin-bottom:2em;">
+前回までは、マルコフモデルでリズムのパターンを決定することでコンピュータの自動beat生成を実現しましたが、このアルゴリズムはハーモニーにも応用できます。次の例を見てみましょう。
+
+<pre>
+T = 4.0
+
+define :markov do |a, h| h[a].sample; end # Chooses the next state at  random from hash
+define :g do |k| get[k]; end # simplified root note in scale getter
+define :s do |k, n| set k, n; end # simplified root note setter
+define :mnote do |key,chain| s key, (markov (g key), chain); g key; end
+
+set :k, 1
+
+# Scale
+sc_root = :F2
+sc_type = :major
+sc = scale(sc_root, sc_type)
+
+# Chords in scale -- chords are defined here.
+chords = (1..7).map {|n| chord_degree n, sc_root, sc_type }.ring
+
+# Markov chain representing a I-IV-V chord progression, with a little randomness
+K = {
+  1 => [1,1,4,5],
+  4 => [5],
+  5 => [1,4]
+}
+
+live_loop :chords do
+  use_synth :fm
+  chr = chords[mnote :k, K]
+  dur = T/1
+  play chr[0], release: dur # first note of triad
+  play chr[1], release: dur # second note of triad
+  play chr[2], release: dur # third note of triad
+  play chr[3], release: dur # 7th note for "flavor"
+  sleep dur
+end
+</pre>
+確かにハーモニー生成ができていますね。
+<code>map</code>はRubyデフォルトのメソッドで、要素の数だけ繰り返しブロックを実行し、ブロックの戻り値を集めた配列を作成して返します。collectメソッドの別名です。
+<br>
+<code>chord_degree</code>はSonic Pi特有のメソッドですが、公式ドキュメントにも記載がなく、<a href="https://chuletitaspinguino.files.wordpress.com/2015/12/man_sonic_pi.pdf">マニュアル</a>に記載されているメソッドです。詳細は<a href="https://yuna06.work/2019/01/25/chord_degree/">こちら</a>をどうぞ。chord_degreeの引数は次のとうりです。
+
+<table>
+  <caption>chord_degreeの引数</caption>
+  <tr>
+    <th></th>
+    <th>説明</th>
+    <th>例</th>
+  </tr>
+   <tr>
+    <td>n</td>
+    <td>スケールの開始音</td>
+    <td>symbol(:i, :ii, :iii, :iv, :v, :vi, :vii) もしくはnumber(1-7)</td>
+  </tr>
+  <tr>
+    <td>sc_root</td>
+    <td>スケールのトニックノート</td>
+    <td>C4, A3</td>
+  </tr>
+  <tr>
+    <td>sc_type</td>
+    <td>スケールタイプ</td>
+    <td>major</td>
+  </tr>
+</table>
+</p>
+
+<p style="margin-bottom:2em;">
+<code>chords</code>の中身をのぞいてみると次のようになります。
+<pre>
+puts chords
+>>
+(ring (ring 41, 45, 48, 52), (ring 43, 46, 50, 53), (ring 45, 48, 52, 55), (ring 46, 50, 53, 57), (ring 48, 52, 55, 58), (ring 50, 53, 57, 60), (ring 52, 55, 58, 62))
+</pre>
+F2-Majorを基本として、A~Gで７種類のコードを生成していますね。
+</p>
+
+<h3>メロディーを作ってみよう</h3>
+<p style="margin-bottom:2em;">
+ビートもハーモニーもマルコフ連鎖で作ることができました。あとはメロディーを作るだけですね。下のコードの説明をしていきます。
+<pre>
+# Melody Maker -- makes a single melody pattern of length len and moves away from root in range 2
+define :make_melody do |len = 16, rng = 2|
+  (1..len).map{|n| ((rng*-1)..rng).to_a.sample }.ring  # This uses a .sample and a range, but can also be done with cosine functions.
+end
+
+# Generates 4 melody patterns
+melodies = (1..4).map{|n| make_melody(16,2)}.ring
+
+# Melodies -- markov chain for switching patterns
+Y = {
+  0 => [1],
+  1 => [0, 1, 2],
+  2 => [1, 2],
+  3 => [1]
+}
+
+live_loop :chords do
+  use_synth :fm
+  chr = chords[mnote :k, K]
+  dur = T/1
+  play chr[0], release: dur
+  play chr[1], release: dur
+  play chr[2], release: dur
+  play chr[3], release: dur
+
+  melody = melodies[mnote :y, Y]
+  use_synth :pretty_bell
+  4.times do
+    play sc[melody.tick] + 36
+    sleep T/4
+  end
+end
+</pre>
+
+<code>make_melody</code>は第一引数にメロディーの長さ、第二引数にルートからの距離を渡すと、第二引数の絶対値を満たす整数を要素にもつ、第一引数の長さの配列を生成します。下のような感じです。
+<pre>
+puts make_melody(16,2)
+>> (ring -1, -2, 1, -1, 1, -1, 2, 1, -1, 2, 0, -1, 1, -1, -2, -1)
+</pre>
+<br>
+<code>.to_a</code>はレシーバ自身を返すRubyデフォルトメソッドです。
+</p>
+
+<h3>一つにまとめる</h3>
+<p style="margin-bottom:2em;">
+最終的なコードはこちらになります。ビート、コード、メロディー全てがマルコフ連鎖モデルで制御されています。このモデルは、サンプルにおいても適応可能です。ぜひ、自分なりにアレンジして自動作曲を楽しんできださい。
+<pre>
+T = 4.0
+
+# State machine utility functions
+define :markov do |a, h| h[a].sample; end # Chooses the next state at  random from hash
+define :g do |k| get[k]; end # simplified root note in scale getter
+define :s do |k, n| set k, n; end # simplified root note setter
+define :mnote do |key,chain| s key, (markov (g key), chain); g key; end
+
+# Initializes states for all state machines
+set :k, 1
+set :b, 0
+set :s, 0
+set :y, 0
+
+# Scale
+sc_root = :F2
+sc_type = :major
+sc = scale(sc_root, sc_type)
+
+# Chords in scale -- chords are defined here.
+chords = (1..7).map {|n| chord_degree n, sc_root, sc_type }.ring
+
+K = {
+  1 => [1,1,4,5],
+  4 => [5],
+  5 => [1,4]
+}
+
+B = {
+  0 => [0,1],
+  1 => [0,1]
+}
+
+S = {
+  0 => [0,0,0,0, 0,0,0,1], # 1/8 chance of choosing snare pattern 2
+  1 => [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1] # 1/16 chance of choosing snare pattern 2
+}
+
+kick_patterns = [
+  (bools, 1,0,1,0, 0,0,1,0, 0,0,1,0, 0,0,1,0), # Kick Pattern 1 / C
+  (bools, 1,0,0,0, 0,0,1,0, 0,1,1,0, 0,1,1,0) # Kick Pattern 2 / C
+].ring
+
+snare_patterns = [
+  (bools, 0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0), # Snare Pattern 1 / G
+  (bools, 1,0,1,0, 1,0,0,0, 0,0,0,0, 1,0,1,0)  # Snare Pattern 2 / G
+].ring
+
+# Melody Maker -- makes a single melody pattern of length len and moves away from root in range 2
+define :make_melody do |len = 16, rng = 2|
+  (1..len).map{|n| ((rng*-1)..rng).to_a.sample }.ring  # This uses a .sample and a range, but can also be done with cosine functions.
+end
+
+# Generates 4 melody patterns
+melodies = (1..4).map{|n| make_melody(16,2)}.ring
+
+# Melodies -- markov chain for switching patterns
+Y = {
+  0 => [1],
+  1 => [0, 1, 2],
+  2 => [1, 2],
+  3 => [1]
+}
+
+live_loop :kicks do
+  pat = kick_patterns[mnote :b, B] # markov select pattern
+  pat.length.times do
+    sample :bd_mehackit if pat.tick
+    sleep T/16
+  end
+end
+
+live_loop :snares do
+  pat = snare_patterns[mnote :s, S] # markov select pattern
+  pat.length.times do
+    sample :sn_dolf if pat.tick
+    sleep T/16
+  end
+end
+
+live_loop :chords do
+  use_synth :fm
+  chr = chords[mnote :k, K]
+  dur = T/1
+  play chr[0], release: dur
+  play chr[1], release: dur
+  play chr[2], release: dur
+  play chr[3], release: dur
+
+  melody = melodies[mnote :y, Y]
+  use_synth :pretty_bell
+  4.times do
+    play sc[melody.tick] + 36
+    sleep T/4
+  end
+end
+</pre>
+
+</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

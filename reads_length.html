@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>リード長について理解しよう</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li class="active"><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/reads_length.html" rel="bookmark"
+           title="Permalink to リード長について理解しよう">リード長について理解しよう</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/genome.html">genome</a>.</p>
+<p>tags: <a href="/tag/genome.html">genome</a> </p>
+</footer><!-- /.post-info -->      <h3>
+リード長とは？
+</h3>
+
+<p style="margin-bottom:2em;">
+ゲノム解析の領域でよく耳にするリード長ですが、正確には何を指しているのでしょうか？フラグメントという言葉と混同しやすいので、比較しながら理解していきましょう。
+
+</p>
+
+<h3>
+リード長はどんな時に重要になるのか？
+</h3>
+
+<p style="margin-bottom:2em;">
+
+</p>
+
+<table>
+  <caption>リード長比較</caption>
+  <tr>
+    <th></th>
+    <th>ショートリード</th>
+    <th>ロングリード</th>
+  </tr>
+  <tr>
+    <td>企業</td>
+    <td>Illumina</td>
+    <td>PacBio, Nanopore</td>
+  </tr>
+  <tr>
+    <td>反復配列</td>
+    <td>○</td>
+    <td>◎</td>
+  </tr>
+  </tr>
+  <tr>
+    <td>変異解析</td>
+    <td>◎</td>
+    <td>○</td>
+  </tr>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+<h3>反復配列にはロングリードが有利</h3>
+
+<p style="margin-bottom:2em;">
+リード長と反復配列にはどんな関係があるのでしょうか？
+結論から言うと、ロングリードの方が反復配列を多く持つ生物種に適しています。
+<br>
+理由としてはショートリードシーケンサーを用いた場合、リード長が反復配列領域よりも短いため、アセンブリの時に反復配列の長さを決定できないからです。リード長の方が反復配列よりも長くすることができれば（ロングリードであれば）、反復配列部分をScaffoldとせずに一つのContigとして読むことができます。
+</p>
+
+<h3>ショートリードでもペアエンドならば...</h3>
+
+<p style="margin-bottom:2em;">
+反復配列にはロングリードが適していると言う話をしましたが、ショートリードが全くもって駄目かと言うと、そうではありません。
+<br>
+デノボアセンブリ（リードのデータのみを用いて、アセンブリを行う）ショートリードでも、ペアエンドを用いるとContig長く、少なく、Scaffold少なくアセンブリすることができます。
+<br>
+具体的にはフラグメントサイズ（インサートサイズ）が反復配列よりも長ければ、その反復配列長を同定することができます。フラグメントサイズを変更することができるので、調整することも可能です。
+<br>
+しかし、反復配列の読み取りにおいて、ロングリードの方が有利なのは変わらないようです。
+</p>
+
+<h3>変異解析ではショートリードが有利</h3>
+
+<p style="margin-bottom:2em;">
+変異解析でなぜショートリードが有利なのかと言うと、変異候補塩基の妥当性を評価する時に候補塩基箇所のリード数が重要だからです。変異候補塩基が複数あったとして、仮にそのリードがそれぞれ一つずつしかなかったとしたら、どれが本当の変異塩基で、どれが偽陽性かわかりませんよね。ショートリードではリード数をかなり多く稼げるので、カバレッジが上がり、変異解析に向いていると言うわけです。
+</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

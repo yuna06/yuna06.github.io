@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>OSCを使おうSonic Pi</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/sonicpi_ocs.html" rel="bookmark"
+           title="Permalink to OSCを使おうSonic Pi">OSCを使おうSonic Pi</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>OSCとは？</h3>
+
+<p style="margin-bottom:2em;">
+OSCとはOpenSound Controlの略で、電子楽器やコンピュータ機器が音楽演奏データをネットワークを通じてリアルタイムに共有するための通信プロトコルです。
+</p>
+
+<p style="margin-bottom:2em;">
+MIDIと同様に、外部アプリケーションとのネットワーク通信をOSCで行うことができます。MIDIは1980年代に設計されたものであるため、マルチメディア対応の面など制限があるのですが、OSCにはMIDIを超えるポテンシャルがあると言えます。<a href="https://yuna06.work/2019/01/26/midi%E3%82%92%E4%BD%BF%E3%81%84%E3%81%93%E3%81%AA%E3%81%9D%E3%81%86%e3%80%80sonic-pi/">MIDIを使いこなそう Sonic Pi</a>参照。
+</p>
+
+<h3>OSCで全てをつなげよう</h3>
+
+<p style="margin-bottom:2em;">
+あらゆるプログラミング言語がOSCに対応しているので、外部ソフトからのSonic Pi制御、Sonic Piからの外部ソフト制御が可能になります。例えば、Pythonで今流行りの人工知能ソフトを実装し、OSCで通信を行って、Sonic Piで自動作曲を行うことも可能になります。本当にできることは無限大です。
+</p>
+
+<h3>OSC受信</h3>
+
+<p style="margin-bottom:2em;">
+デフォルトでは同じPCから送られたOSCメッセージは、Sonic Piでは<code>port 4559</code>で受け取られます。
+<br>
+つまり、設定を何も変更しなければ、Sonic Piへ送られたメッセージは、
+<div class="box11">
+    <p>
+・cue logに表示される。
+<br>
+・自動的にTime Stateに保存される。
+<br>
+・<code>get</code>,<code>sync</code>でデータ操作可能。
+</p>
+</div>
+ということになります。Time State,<code>get</code>については<a href="https://yuna06.work/2019/01/24/set%E3%81%A8get-sonic-pi/">SETとGET (SONIC PI)</a>をどうぞ。
+</p>
+
+<p style="margin-bottom:2em;">
+一つ例を見てみましょう。
+<pre>
+live_loop :foo do
+  use_real_time
+  a, b, c = sync "/osc/trigger/prophet"
+  synth :prophet, note: a, cutoff: b, sustain: c
+end
+</pre>
+<code>"/osc/trigger/prophet"</code>でシンクロするOSCパスを指定しています。Sonic Piでは、<code>/ocs</code>という接頭辞が全てのOSCメッセージにつけられます。
+</p>
+
+<h3>OSCを他アプリから送る</h3>
+<p style="margin-bottom:2em;">
+PythonアプリからSonic PiへOSCを送ってみましょう。
+<pre>
+from pythonosc import osc_message_builder
+from pythonosc import udp_client
+
+sender = udp_client.SimpleUDPClient('127.0.0.1', 4559)
+sender.send_message('/trigger/prophet', [70, 100, 8])
+</pre>
+ClojureでOSCを送る場合は下のようになります。
+<pre>
+(use 'overtone.core)
+(def c (osc-client "127.0.0.1" 4559))
+(osc-send c "/trigger/prophet" 70 100 8)
+</pre>
+</p>
+
+<h3>OSCを外部機器から受信する</h3>
+<p style="margin-bottom:2em;">
+セキュリティ上の理由から、Sonic Piでは遠隔機器のOSCメッセージを受け付けていません。しかし、
+<br>
+<code>Preferences->IO->Networked OSC</code>
+<br>
+と進んで<code>Receive Remote OSC Messages</code>にチェックを入れると、ネットワーク上のあらゆるOSCメッセージを受信できるようになります。
+</p>
+
+<p style="margin-bottom:4em;">
+通常は外部機器に、自分のPCのIPアドレスを教えてあげる必要があります。先ほどcode>Receive Remote OSC Messages</code>を設定したところに、IPアドレスとポート番号が記載されています。
+</p>
+
+<h3>OSC送信</h3>
+<p style="margin-bottom:2em;">
+OSCをSonic Piから送信してみましょう。送り先のIPアドレスとポートを指定します。
+<pre>
+use_osc "localhost", 4559
+osc "/hello/world"
+</pre>
+今回はIPアドレスをlocalhost、ポートをOSCのデフォルトポートに設定したため、Sonic Pi自身に送っていることになります。
+</p>
+
+<p style="margin-bottom:2em;">
+<pre>
+use_osc "192.168.10.23", 123456
+osc "/hello/world"
+</pre>
+外部機器にOSC送信したい時は上のようにIPアドレスと、ポートを指定してあげます。
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

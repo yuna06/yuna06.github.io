@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>Yuna06 - foxdot</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/foxdot_attribute.html">FoxDot Player Attribute</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
+<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
+</footer><!-- /.post-info --><p style="margin-bottom:2em;">
+<code>SynthDefs</code>は様々なオプションをとることができます。オプションは大きく<code>attribute</code>と<code>effect</code>の２つに分けることができます。attributeは音階やタイミングを規定するもので、effetはどのような音を鳴らすかを決めるものです。
+<br>
+オプションのキーワードは次のコードを打ち込むことで確認することができます。
+<pre>
+print(Player.get_attributes()
+>>
+('degree', 'oct', 'dur', 'delay', 'blur', 'amplify', 'scale', 'bpm', 'sample', 'sus', 'fmod', 'pan', 'rate', 'amp', 'vib', 'vibdepth', 'slide', 'sus', 'slidedelay', 'slidefrom', 'bend', 'benddelay', 'coarse', 'striate', 'pshift', 'hpf', 'hpr', 'lpf', 'lpr', 'swell', 'bpf', 'bpr', 'bits', 'amp', 'crush', 'dist', 'chop', 'tremolo', 'echo', 'decay', 'spin', 'cut', 'room', 'mix', 'formant', 'shape')
+</pre>
+</p>
+
+<h2>attirbute</h2>
+<p style="margin-bottom:2em;">
+playerオブジェクトのattributeにダイレクトに値を代入することができるので、以下のコードは同じ意味になります。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=1/2, sus=2)
+</pre>
+<pre>
+p1 >> pluck()
+p1.degree = [0, 1, 2, 3]
+p1.dur = 1/2
+p1.sus = 2
+</pre>
+</p>
+
+<h3>degree</h3>
+<p style="margin-bottom:2em;">
+ピッチを設定します。デフォルトスケールはC Majorにっています。
+<pre>
+p1 >> pluck([0, 1, 2, 3])
+</pre>
+</p>
+
+<h3>oct</h3>
+<p style="margin-bottom:2em;">
+octではノートを演奏したいオクターブを指定します。デフォルトでは5で、一オクターブが12半音なので、普通にplayerオブジェクトを再生すると60th半音で始まります。
+<pre>
+p1 >> pluck(oct=[4, 5, 6])
+</pre>
+</p>
+
+<h3>dur</h3>
+<p style="margin-bottom:2em;">
+音の長さを指定します。少数、分数も可能です。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=[0.1,0.3,0.43,0.17])
+</pre>
+0を使った場合演奏しなくなります。<code>rest</code>を使うと、指定した時間ミュートします。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=[1, 1, rest(2)])
+</pre>
+</p>
+
+<h3>degree</h3>
+<p style="margin-bottom:2em;">
+
+<h3>degree</h3>
+<p style="margin-bottom:2em;">                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/foxdot_trial.html" rel="bookmark"
+                           title="Permalink to FoxDot入門">FoxDot入門</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
+<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
+</footer><!-- /.post-info -->                <p>FoxDot入門</p>
+                <a class="readmore" href="/foxdot_trial.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

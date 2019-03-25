@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>Yuna06 - yuna06</title>
+        <title>Yuna06 - sonicpi</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -14,13 +14,13 @@
                     <li><a href="/category/foxdot.html">foxdot</a></li>
                     <li><a href="/category/genome.html">genome</a></li>
                     <li><a href="/category/memo.html">Memo</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/ai_genome_business.html">人工知能を利用した遺伝子ビジネス</a></h1>
+                    <h1 class="entry-title"><a href="/sonicpi_chord.html">Chord Degree</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2019-03-25T23:00:00+09:00">
                 Published: Mon 25 March 2019
@@ -29,46 +29,58 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
-</footer><!-- /.post-info --><p style="margin-bottom:2em;">
-すっかり浸透した言葉になった、"人工知能"。遺伝子ビジネスの領域でも、人工知能を利用した遺伝子ビジネスは展開している企業は存在します。疾患、診断、治療の分野でAIを使って新たな医療の可能性を秘めている領域です。一つ一つ見ていきましょう。
-</p>
-
-<h3>
-<a href="https://www.deepgenomics.com/">Deep Genomics</a>
-</h3>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info --><h3>chord_degree</h3>
 
 <p style="margin-bottom:2em;">
-Deep Genomicsは人工知能の力を使うことで、ある遺伝子変異がどのような効果があるのか未知だったとしても、その効果を予測できるようなモデルを構築しています。
-治療法開発、標的分子の発見、遺伝性疾患のリスク評価などに利用されています。
+<code>chord_degree</code>は公式ドキュメントにも載っていないメソッドで、<a href="https://chuletitaspinguino.files.wordpress.com/2015/12/man_sonic_pi.pdf">マニュアル</a>の方に記載があります。構文は、
 </p>
 
-<h3>
-<a href="https://www.ibm.com/us-en/marketplace/watson-for-genomics">IBM Watson for Genomics</a>
-</h3>
-
 <p style="margin-bottom:2em;">
-人工知能診断の分野で有名なIBM Watsonですが、2016年に、遺伝子の領域にも参入しました。がんゲノムをシーケンシングし、既存のIBM Watsonと組み合わせることで、一人一人のがん患者に合わせて最適な治療方針を提案することを目指しています。
-2017年にIBM Watson GenomicsはIlluminaのプロジェクトと統合され、がん患者に素早くテーラーメイドな薬を提供することが可能になりました。医師に頼むと数週間かかるところですが、シーケンスから解析までの流れが格段にスムーズになったため、数分でレポートを作成できるようになりました。
+<pre>chord_degree degree (symbol_or_number), tonic (symbol), scale (symbol), number_of_notes (number)</pre>
 </p>
 
-<h3>
-<a href="https://verily.com/">Verily Life Sciences</a>
-</h3>
-
 <p style="margin-bottom:2em;">
-Google傘下のAlphabetの後援で2015年にGoogle Life Scienceとして設立されましたが、現在はVerily Life Scienceと名前を変えています。Googleの検索エンジンを使ってその人の健康的な生活方法を解析しようとしています。
-<br>
-Verilyはヘルスケア関連のセンサー（血糖値を測定するコンタクトレンズなど）やプラットフォームツールの開発も行なっています。
+となっています。それぞれの引数の意味を説明していきます。
+<table>
+  <caption>chord_degreeの引数</caption>
+  <tr>
+    <th></th>
+    <th>説明</th>
+    <th>例</th>
+  </tr>
+   <tr>
+    <td>degree</td>
+    <td>スケールの開始音</td>
+    <td>symbol(:i, :ii, :iii, :iv, :v, :vi, :vii) もしくはnumber(1-7)</td>
+  </tr>
+  <tr>
+    <td>tonic</td>
+    <td>スケールのトニックノート</td>
+    <td>C4, A3</td>
+  </tr>
+  <tr>
+    <td>scale</td>
+    <td>スケールタイプ</td>
+    <td>major</td>
+  </tr>
+<tr>
+    <td>number_of_notes</td>
+    <td>コードに積み上げるノートの数</td>
+    <td>1,2,3,4</td>
+  </tr>
+</table>
 </p>
 
-<h3>
-<a href="https://www.decode.com/">DeCODE</a>
-</h3>
-
 <p style="margin-bottom:2em;">
-1996年創業。レイキャビク（アイスランド）を拠点とする企業で、アイスランドの１万人のDNAをシーケンスし、循環器疾患から癌まで数多くの疾患の遺伝的リスクファクターを発見しました。アイスランドの誇るべき企業の一つとなっています。2009年に経営破綻の危機に瀕しましたが、2012年に米Amgen社が4億1500万ドルで買収しました。
+使用例を見ていきましょう。
+<pre>
+# Aメジャーコードを演奏します。
+play chord_degree(:i, :A3, :major, 3)
+# Bがスケール開始音のAメジャーコード、つまりBマイナーコードです。
+play chord_degree(:ii, :A3, :major, 3)
+</pre>
 </p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
@@ -78,8 +90,8 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/crisper_company.html" rel="bookmark"
-                           title="Permalink to CRISPER関連企業">CRISPER関連企業</a></h1>
+                    <h1><a href="/sonicpi_if.html" rel="bookmark"
+                           title="Permalink to Sonic Pi条件分岐">Sonic Pi条件分岐</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -91,17 +103,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
-</footer><!-- /.post-info -->                <p>CRISPER関連企業</p>
-                <a class="readmore" href="/crisper_company.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Pi条件分岐</p>
+                <a class="readmore" href="/sonicpi_if.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/fermentation_beer.html" rel="bookmark"
-                           title="Permalink to ビールと発酵">ビールと発酵</a></h1>
+                    <h1><a href="/sonicpi_markov.html" rel="bookmark"
+                           title="Permalink to マルコフ連鎖を使ってSonic PiでBeatを作ろう。">マルコフ連鎖を使ってSonic PiでBeatを作ろう。</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -113,17 +125,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/fermentation.html">fermentation</a>.</p>
-<p>tags: <a href="/tag/fermentation.html">fermentation</a> </p>
-</footer><!-- /.post-info -->                <p>ビールと発酵</p>
-                <a class="readmore" href="/fermentation_beer.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>マルコフ連鎖とSonicPi</p>
+                <a class="readmore" href="/sonicpi_markov.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/fermentation_sake.html" rel="bookmark"
-                           title="Permalink to 日本酒と発酵">日本酒と発酵</a></h1>
+                    <h1><a href="/sonicpi_markov_arange.html" rel="bookmark"
+                           title="Permalink to Markov Chainモデルで作った曲を分析、アレンジしてみよう。">Markov Chainモデルで作った曲を分析、アレンジしてみよう。</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -135,17 +147,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/fermentation.html">fermentation</a>.</p>
-<p>tags: <a href="/tag/fermentation.html">fermentation</a> </p>
-</footer><!-- /.post-info -->                <p>日本食と発酵</p>
-                <a class="readmore" href="/fermentation_sake.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Pi Markov</p>
+                <a class="readmore" href="/sonicpi_markov_arange.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/fermentation_tea.html" rel="bookmark"
-                           title="Permalink to 茶と発酵">茶と発酵</a></h1>
+                    <h1><a href="/sonicpi_midi.html" rel="bookmark"
+                           title="Permalink to MIDIを使いこなそう Sonic Pi">MIDIを使いこなそう　Sonic Pi</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -157,17 +169,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/fermentation.html">fermentation</a>.</p>
-<p>tags: <a href="/tag/fermentation.html">fermentation</a> </p>
-</footer><!-- /.post-info -->                <p>茶と発酵</p>
-                <a class="readmore" href="/fermentation_tea.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Pi MIDI</p>
+                <a class="readmore" href="/sonicpi_midi.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/fermentation_wine.html" rel="bookmark"
-                           title="Permalink to ワインと発酵">ワインと発酵</a></h1>
+                    <h1><a href="/sonicpi_midi_channel.html" rel="bookmark"
+                           title="Permalink to MIDIチャンネル">MIDIチャンネル</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -179,17 +191,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/fermentation.html">fermentation</a>.</p>
-<p>tags: <a href="/tag/fermentation.html">fermentation</a> </p>
-</footer><!-- /.post-info -->                <p>ワインと発酵</p>
-                <a class="readmore" href="/fermentation_wine.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Pi MIDIチャンネル</p>
+                <a class="readmore" href="/sonicpi_midi_channel.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/foxdot_attribute.html" rel="bookmark"
-                           title="Permalink to FoxDot Player Attribute">FoxDot Player Attribute</a></h1>
+                    <h1><a href="/sonicpi_ocs.html" rel="bookmark"
+                           title="Permalink to OSCを使おうSonic Pi">OSCを使おうSonic Pi</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -201,17 +213,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
-<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
-</footer><!-- /.post-info -->                <p>FoxDot Player Attribute</p>
-                <a class="readmore" href="/foxdot_attribute.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>OCSとSonic Pi</p>
+                <a class="readmore" href="/sonicpi_ocs.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/foxdot_trial.html" rel="bookmark"
-                           title="Permalink to FoxDot入門">FoxDot入門</a></h1>
+                    <h1><a href="/sonicpi_random.html" rel="bookmark"
+                           title="Permalink to Sonic Piランダム">Sonic Piランダム</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -223,17 +235,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
-<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
-</footer><!-- /.post-info -->                <p>FoxDot入門</p>
-                <a class="readmore" href="/foxdot_trial.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Piランダム</p>
+                <a class="readmore" href="/sonicpi_random.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/metagenome.html" rel="bookmark"
-                           title="Permalink to メタゲノムとは？">メタゲノムとは？</a></h1>
+                    <h1><a href="/sonicpi_repeat.html" rel="bookmark"
+                           title="Permalink to SONIC PIくり返し">SONIC PIくり返し</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -245,17 +257,17 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
-</footer><!-- /.post-info -->                <p>メタゲノムとは？</p>
-                <a class="readmore" href="/metagenome.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>SONIC PIくり返し</p>
+                <a class="readmore" href="/sonicpi_repeat.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/metagenome_food_industry.html" rel="bookmark"
-                           title="Permalink to メタゲノム解析で食産業は変化するのか？">メタゲノム解析で食産業は変化するのか？</a></h1>
+                    <h1><a href="/sonicpi_sample.html" rel="bookmark"
+                           title="Permalink to Sonic Piでサンプルを扱う">Sonic Piでサンプルを扱う</a></h1>
                 </header>
 
                 <div class="entry-content">
@@ -267,16 +279,16 @@ Verilyはヘルスケア関連のセンサー（血糖値を測定するコン�
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
-</footer><!-- /.post-info -->                <p>メタゲノム解析で食産業は変化するのか？</p>
-                <a class="readmore" href="/metagenome_food_industry.html">read more</a>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->                <p>Sonic Piでサンプル</p>
+                <a class="readmore" href="/sonicpi_sample.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">
-    Page 1 / 3
-        <a href="/author/yuna062.html">&raquo;</a>
+    Page 1 / 2
+        <a href="/category/sonicpi2.html">&raquo;</a>
 </p>
                 </section><!-- /#content -->
         <section id="extras" class="body">

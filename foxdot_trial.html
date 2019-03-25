@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>FoxDot入門</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li class="active"><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/foxdot_trial.html" rel="bookmark"
+           title="Permalink to FoxDot入門">FoxDot入門</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
+<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
+</footer><!-- /.post-info -->      <h3>FoxDot入門1</h3>
+
+<p style="margin-bottom:2em;">
+関数やクラスについて知りたい時は、引数にオブジェクト名をとって、<code>help()</code>を使いましょう。
+<pre>
+  help(object)
+</pre>
+FoxDotはSuperColliderへのPythonでのインターフェイスを提供します。
+</p>
+
+<h3>F</h3>
+<p style="margin-bottom:2em;">
+oxDotでSuperColliderのオブジェクトを作ってみましょう。下のコードを実行すると、FoxDot SynthDefsのライブラリをチェックできます。
+<pre>
+  print(SynthDefs)
+</pre>
+<pre>
+  >>> print(SynthDefs)
+['loop', 'play1', 'play2', 'audioin', 'noise', 'dab', 'varsaw', 'lazer', 'growl', 'bass', 'dirt', 'crunch', 'rave', 'scatter', 'charm', 'bell', 'gong', 'soprano', 'dub', 'viola', 'scratch', 'klank', 'feel', 'glass', 'soft', 'quin', 'pluck', 'spark', 'blip', 'ripple', 'creep', 'orient', 'zap', 'marimba', 'fuzz', 'bug', 'pulse', 'saw', 'snick', 'twang', 'karp', 'arpy', 'nylon', 'donk', 'squish', 'swell', 'razz', 'sitar', 'star', 'jbass', 'piano', 'sawbass', 'prophet', 'pads', 'pasha', 'ambi', 'space', 'keys', 'dbass', 'sinepad']
+</pre>
+
+次は下のコードでオブジェクトのインスタンス化をしてみましょう。
+<br>
+SynthDefsのなかのpluckインスタンスを<code>p1</code>という名前でインスタンス化しています。<code> >> </code>と表記することを覚えておきましょう。
+<pre>
+  p1 >> pluck()
+</pre>
+p1のプレイヤーオブジェクトを停止する時は、<code>.stop</code>とします。
+<pre>
+  p1.stop
+</pre>
+全てのプレイヤーオブジェクトを停止する時は、<code>Cmd + .</code>というショートカットで停止します。<code>Clock.clear()</code>とコマンドで停止することも可能です。
+</p>
+
+<h3>プレイヤーオブジェクトの引数</h3>
+<p style="margin-bottom:2em;">
+  プレイヤーオブジェクトに引数を持たせることで、音を操作していきます。
+  <br>
+  最初の引数はノート（音階）でdur（音の長さ）やamp（音量）のように引数名が指定されていません。
+<pre>
+  p1 >> pluck([0,2,4], dur=[1,1/2,1/2], amp=[1,3/4,3/4])
+</pre>
+デフォルトでは全てのプレイヤーオブジェクトはCメジャースケールを演奏します。
+<br>
+なので<code>[0,2,4]</code>では<code>C, E, G</code>を演奏することになります。
+<br>
+<code>dur</code>では1が1ビートを表すようになっています。
+<br>
+<code>amp</code>は0から1の値をとります。
+<br>
+より詳しくはPlayer Attributeの記事で説明します。
+</p>
+
+<p style="margin-bottom:2em;">
+  そのほかにも下の例のように簡単にノートをあるアルゴリズムで調整することができます。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=1) + [0, 0, 4]
+</pre>
+コードを作る時はタプルで下のように書きます。
+<pre>
+  p1 >> piano([0, 1, 2, 3], dur=1) + (0, 2, 4, 9)
+  </pre>
+</p>
+
+<h3>サンプルを再生する</h3>
+<p style="margin-bottom:2em;">
+FoxDotではSynthDefでサンプルを再生できます。
+<br>
+最初の引数として数字をとるのではなく、文字を書いていくことになります。それぞれの文字が、異なる音に対応しています。下の例は基本的なドラムパターンの例です。
+<pre>
+d1 >> play("x-o-")
+</pre>
+<code>()</code>で囲んだ部分は選ばれるものが順番に毎回かわるようにしてくれます。
+<pre>
+  d1 >> play("(x-)(-x)o-")
+</pre>
+<code>[]</code>で囲んだ部分は他と同じビートの中で連続して演奏することを可能にします。
+<pre>
+  d1 >> play("x-o[---]", dur=1)
+</pre>
+<code>{}</code>で囲んだ部分はランダムで毎回音を選びます。演奏がマンネリ化することを防止してくれます。
+<pre>
+  d1 >> play("x-o{-=*}")
+</pre>
+色々と組み合わせるとかっこいいビートを作ることができます。
+<pre>
+d1 >> play("(x[--])xo{-[--][-x]}")
+</pre>
+</p>
+
+<h3>パターンの基本</h3>
+<p style="margin-bottom:2em;">
+Patternクラスを使うとPythonリストの数学的な加工がしやすくなります。リストの最初に<code>P</code>とつけるだけで、リストをパターンにすることができます。
+<pre>
+my_pattern = P[0, 1, 2, 3]
+print(my_pattern * 2)
+>> P[0, 2, 4, 6]
+</pre>
+
+</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

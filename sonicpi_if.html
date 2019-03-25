@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>$YOUR_POST_TITLE</title>
+        <title>Sonic Pi条件分岐</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -13,37 +13,67 @@
                     <li><a href="/category/fermentation.html">fermentation</a></li>
                     <li><a href="/category/foxdot.html">foxdot</a></li>
                     <li><a href="/category/genome.html">genome</a></li>
-                    <li class="active"><a href="/category/memo.html">Memo</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/0210first_post.html" rel="bookmark"
-           title="Permalink to $YOUR_POST_TITLE">$YOUR_POST_TITLE</a></h1>
+        <a href="/sonicpi_if.html" rel="bookmark"
+           title="Permalink to Sonic Pi条件分岐">Sonic Pi条件分岐</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-02-10T23:00:00+09:00">
-                Published: Fri 10 February 2017
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/yourname.html">yourname</a>
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/memo.html">Memo</a>.</p>
-<p>tags: <a href="/tag/pelican.html">pelican</a> <a href="/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->      <h1>ブログのタイトル</h1>
-<ul>
-<li>List</li>
-<li>List</li>
-<li>List</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)</span>
-</pre></div>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>Sonic Piで条件分岐してみよう</h3>
+
+<p style="margin-bottom:2em;">
+条件分岐はプログラミングをする上で最も大切なものの一つでしょう。Sonic PiではRubyが使われているので、ここで慣れることで、他の場面でも、自由にRubyで条件分岐を作ることができるようになると思います。
+</p>
+
+<p style="margin-bottom:2em;">
+Sonic Piでランダムにシンバルやドラムを演奏したいときなどに<code>if</code>を使います。（ランダムノートなどは別の方法で実現します。）
+<code>one_in</code>でランダムな数字を生成し、その結果によって処理を分岐させます。今回は1,2をランダムに生成し、2ならばドラム、それ以外(1)ならば、シンバルを演奏します。Rubyではif文の最後にもendをつけることを覚えておきましょう。これがブロックが終了する目印になります。
+<pre>
+loop do
+
+  if one_in(2)
+    sample :drum_heavy_kick
+  else
+    sample :drum_cymbal_closed
+  end
+
+  sleep 0.5
+
+end
+</pre>
+</p>
+
+<p style="margin-bottom:2em;">
+また、下の例のように実行内容の後ろにif文をつけると、読みやすいコードを作ることができます。
+<pre>
+use_synth :dsaw
+
+loop do
+  play 50, amp: 0.3, release: 2
+  play 53, amp: 0.3, release: 2 if one_in(2)
+  play 57, amp: 0.3, release: 2 if one_in(3)
+  play 60, amp: 0.3, release: 2 if one_in(4)
+  sleep 1.5
+end
+</pre>
+</p>
     </div><!-- /.entry-content -->
 
   </article>

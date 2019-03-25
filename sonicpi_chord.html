@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>$YOUR_POST_TITLE</title>
+        <title>Chord Degree</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -13,37 +13,80 @@
                     <li><a href="/category/fermentation.html">fermentation</a></li>
                     <li><a href="/category/foxdot.html">foxdot</a></li>
                     <li><a href="/category/genome.html">genome</a></li>
-                    <li class="active"><a href="/category/memo.html">Memo</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/0210first_post.html" rel="bookmark"
-           title="Permalink to $YOUR_POST_TITLE">$YOUR_POST_TITLE</a></h1>
+        <a href="/sonicpi_chord.html" rel="bookmark"
+           title="Permalink to Chord Degree">Chord Degree</a></h1>
     </header>
 
     <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2017-02-10T23:00:00+09:00">
-                Published: Fri 10 February 2017
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/yourname.html">yourname</a>
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/memo.html">Memo</a>.</p>
-<p>tags: <a href="/tag/pelican.html">pelican</a> <a href="/tag/python.html">python</a> </p>
-</footer><!-- /.post-info -->      <h1>ブログのタイトル</h1>
-<ul>
-<li>List</li>
-<li>List</li>
-<li>List</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">)</span>
-</pre></div>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>chord_degree</h3>
+
+<p style="margin-bottom:2em;">
+<code>chord_degree</code>は公式ドキュメントにも載っていないメソッドで、<a href="https://chuletitaspinguino.files.wordpress.com/2015/12/man_sonic_pi.pdf">マニュアル</a>の方に記載があります。構文は、
+</p>
+
+<p style="margin-bottom:2em;">
+<pre>chord_degree degree (symbol_or_number), tonic (symbol), scale (symbol), number_of_notes (number)</pre>
+</p>
+
+<p style="margin-bottom:2em;">
+となっています。それぞれの引数の意味を説明していきます。
+<table>
+  <caption>chord_degreeの引数</caption>
+  <tr>
+    <th></th>
+    <th>説明</th>
+    <th>例</th>
+  </tr>
+   <tr>
+    <td>degree</td>
+    <td>スケールの開始音</td>
+    <td>symbol(:i, :ii, :iii, :iv, :v, :vi, :vii) もしくはnumber(1-7)</td>
+  </tr>
+  <tr>
+    <td>tonic</td>
+    <td>スケールのトニックノート</td>
+    <td>C4, A3</td>
+  </tr>
+  <tr>
+    <td>scale</td>
+    <td>スケールタイプ</td>
+    <td>major</td>
+  </tr>
+<tr>
+    <td>number_of_notes</td>
+    <td>コードに積み上げるノートの数</td>
+    <td>1,2,3,4</td>
+  </tr>
+</table>
+</p>
+
+<p style="margin-bottom:2em;">
+使用例を見ていきましょう。
+<pre>
+# Aメジャーコードを演奏します。
+play chord_degree(:i, :A3, :major, 3)
+# Bがスケール開始音のAメジャーコード、つまりBマイナーコードです。
+play chord_degree(:ii, :A3, :major, 3)
+</pre>
+</p>
     </div><!-- /.entry-content -->
 
   </article>

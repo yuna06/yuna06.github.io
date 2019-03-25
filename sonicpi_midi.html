@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>MIDIを使いこなそう Sonic Pi</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/sonicpi_midi.html" rel="bookmark"
+           title="Permalink to MIDIを使いこなそう Sonic Pi">MIDIを使いこなそう　Sonic Pi</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>MIDIとは</h3>
+
+<p style="margin-bottom:2em;">
+MIDIとはMusical Instrument Digital Interfaceの略で、1980年代に策定された、電子楽器間で演奏データをデジタル転送するための世界共通規格です。
+</p>
+
+<p style="margin-bottom:2em;">
+MIDIを使うと次のようなことができるようになります。
+<div class="box11">
+<p>
+・実世界のアクション（楽器の演奏やRasPiを介した信号）をSonic Piでのイベントに変換
+<br>
+・Sonic Piのイベントで実世界のアクションを操作する
+</p>
+</div>
+少し抽象的かもしれませんが具体的には外部のキーボードやシーケンサーなどとSonic Piを連携しデータのやり取りができるようになるということです。
+</p>
+
+<h3>MIDI機器の接続</h3>
+
+<p style="margin-bottom:2em;">
+まずは、キーボードやシーケンサーを用意して、PCに接続しましょう。今ではUSBでMIDIを送信することが多いです。
+<br>
+Preference panelのIO sectionまで進んでください。そこに接続されているデバイスが表示されているはずです。
+<br>
+表示されていなかったら、'Reset MIDI'ボタンを押してください。それでも表示されない場合はOSのMIDI設定を確認しましょう。
+<br>
+どうしてもうまくいかない場合は<a href=" http://gitter.im/samaaron/sonic-pi">Sonic Piの公開チャットルーム</a>がありますので、そこで質問してみるといいと思います。
+</p>
+
+<h3>MIDIの受け取り</h3>
+
+<p style="margin-bottom:2em;">
+接続ができるとSonic Piは自動的に外部アクションを受け取ります。cue loggerでMIDI機器からの情報が下のように表示されます。
+<pre>
+/midi/nanokey2_keyboard/0/1/note_off  [55, 64]
+/midi/nanokey2_keyboard/0/1/note_on   [53, 102]
+/midi/nanokey2_keyboard/0/1/note_off  [57, 64]
+/midi/nanokey2_keyboard/0/1/note_off  [53, 64]
+/midi/nanokey2_keyboard/0/1/note_on   [57, 87]
+/midi/nanokey2_keyboard/0/1/note_on   [55, 81]
+/midi/nanokey2_keyboard/0/1/note_on   [53, 96]
+/midi/nanokey2_keyboard/0/1/note_off  [55, 64]
+</pre>
+</p>
+
+<h3>MIDI Time State</h3>
+<p style="margin-bottom:2em;">
+イベントはイベント名と値を持っています。これはTime Stateのデータ構造と同じです。詳しくは<a href="https://yuna06.work/2019/01/24/set%E3%81%A8get-sonic-pi/">SETとGET (SONIC PI)</a>をみてください。
+<br>
+ポイントは２つです。
+<div class="box11">
+<p>
+・外部からのMIDIイベントはTime Stateに保管される。
+<br>
+・<code>get</code>, <code>sync</code>でMIDIデータを扱うことができる。
+</p>
+</div>
+</p>
+
+<h3>同期してみよう</h3>
+<p style="margin-bottom:2em;">
+cue logにイベントが表示されていれば、Time Stateを扱うのと同様に操作できます。下の例では、<code>sync</code>で次のTime Stateイベントを待ち、外部キーボードから<code>note</code>の情報を取り出してピアノとしてSonic Piで出力しています。
+<pre>
+live_loop :midi_piano do
+  note, velocity = sync "/midi/nanokey2_keyboard/0/1/note_on"
+  synth :piano, note: note
+end
+</pre>
+</p>
+
+
+<p style="margin-bottom:2em;">
+上のコードを実行すると、キーボードの弾く強さを変えても音量が変化しないことに気づくでしょう。こんな時は、velocityを<code>amp:</code>として扱えば良いです。MIDIが0~127の値をとるなら、これを0~1の値に変換してあげましょう。下のコードで問題が解消されているかと思います。
+<pre>
+live_loop :midi_piano do
+  note, velocity = sync "/midi/nanokey2_keyboard/0/1/note_on"
+  synth :piano, note: note, amp: velocity / 127.0
+end
+</pre>
+</p>
+
+<h3>Latency設定を外す</h3>
+<p style="margin-bottom:2em;">
+Sonic Piではラグを減らすためにデフォルトで0.5秒早く演奏されるようになっています。<code>set_sched_ahead_time!</code>, <code>use_sched_ahead_time</code>でlatencyを設定します。
+<br>
+外部MIDIを扱う時は<code>use_real_time</code>でオフにしておきましょう。
+<pre>
+live_loop :midi_piano do
+  use_real_time
+  note, velocity = sync "/midi/nanokey2_keyboard/0/1/note_on"
+  synth :piano, note: note, amp: velocity / 127.0
+end
+</pre>
+</p>
+
+<h3>値を取り出そう</h3>
+<p style="margin-bottom:4em;">
+MIDIをTime Stateとして扱えるので、<code>get</code>も試してみましょう。<a href="https://yuna06.work/2019/01/24/set%E3%81%A8get-sonic-pi/">SETとGET (SONIC PI)</a>も参考にしてください。
+</p>
+
+<h3>MIDI出力</h3>
+<p style="margin-bottom:2em;">
+Sonic PiではMIDIの入力だけでなく、出力をすることができます。出力もマスターすれば、外部のシンセサイザーやキーボードを操作することができるようになります。Sonic PIでは多数のMIDIメッセージが用意されています。
+
+<table>
+  <caption>MIDI出力メッセージ</caption>
+  <tr>
+    <td>midi_note_on</td>
+    <td>Note on</td>
+  </tr>
+  <tr>
+    <td>midi_note_off</td>
+    <td>Note off</td>
+  </tr>
+  <tr>
+    <td>midi_cc</td>
+    <td>Control change</td>
+  </tr>
+  <tr>
+    <td>midi_pitch_bend</td>
+    <td>Pitch bend</td>
+  </tr>
+  <tr>
+    <td>midi_clock_tick</td>
+    <td>Clock ticks</td>
+  </tr>
+</table>
+</p>
+
+<h3>MIDIイベントを送信</h3>
+<p style="margin-bottom:2em;">
+<code>midi_</code>メソッドは、<code>play</code>, <code>sample</code>, <code>synth</code>のような扱い方をします。なので、<code>live_loop</code>などでは、<code>sleep</code>も必要になります。
+<pre>
+midi_note_on :e3, port: "moog_minitaur", channel: 5
+</pre>
+上の例では、E3をポート（どのデバイスで鳴らすか？、preferenceでデバイス名が表示されています。）とチャネル（1~16の数字）を指定して演奏しています。<a href="https://yuna06.work/2019/01/27/midi%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB/">MIDIチャンネル</a>を参照。
+</p>
+
+<h3>MIDI Studio</h3>
+<p style="margin-bottom:2em;">
+<code>live_audio</code>も使っていきましょう。
+<pre>
+with_fx :reverb, room: 1 do
+  live_audio :moog
+end
+
+live_loop :moog_trigger do
+  use_real_time
+  midi (octs :e1, 3).tick, sustain: 0.1
+  sleep 0.125
+end
+</pre>
+</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

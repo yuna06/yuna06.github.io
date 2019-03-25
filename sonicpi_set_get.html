@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>CRISPER関連企業</title>
+        <title>SETとGET (Sonic Pi)</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -12,17 +12,17 @@
                 <nav><ul>
                     <li><a href="/category/fermentation.html">fermentation</a></li>
                     <li><a href="/category/foxdot.html">foxdot</a></li>
-                    <li class="active"><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
                     <li><a href="/category/memo.html">Memo</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/crisper_company.html" rel="bookmark"
-           title="Permalink to CRISPER関連企業">CRISPER関連企業</a></h1>
+        <a href="/sonicpi_set_get.html" rel="bookmark"
+           title="Permalink to SETとGET (Sonic Pi)">SETとGET (Sonic Pi)</a></h1>
     </header>
 
     <div class="entry-content">
@@ -34,34 +34,51 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
-</footer><!-- /.post-info -->      <p style="margin-bottom:2em;">
-CRISPERは2012年に開発された、最も新しく、効率的で、正確なゲノム編集技術です。数々のスタートアップが出現し、倫理的課題もあるものの、チャンスが多く存在している領域です。将来的には癌、マラリア、遺伝病の治療法として大きな期待ができます。今回もCRISPRにまつわる有名企業を紹介していきます。
-</p>
-
-<h3>
-<a href="http://www.intelliatx.com/">Intellia Therapeutics</a>
-</h3>
-
-<p style="margin-bottom:2em;>
-Intellia Therapeuticsはゲノム編集企業で、CRISPR/Cas9を使って生命を脅かすような病気の治療を目指しています。研究者であるJennifer Doudna、カリフォルニア大学が開発を進めています。NovartisやRegeneronとも提携関係にあります。
-</p>
-
-<h3>
-<a href="http://www.editasmedicine.com/">Editas Medicine</a>
-</h3>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>Rubyのメソッド？Sonic Piのメソッド</h3>
 
 <p style="margin-bottom:2em;">
-Editas Medicineはケンブリッジに拠点を置く企業で、CRISPR-Cas9遺伝子編集技術に基づいた治療開発を行なっています。CEOである、Katrine BosleyはCRISPRは遺伝子を修復できるので、ハンチントン病や嚢胞性線維症などの疾患治療に役立てるとしています。2017年からCRISPRを用いたレーバー先天性黒内障（希少な遺伝性疾患で失明をきたします。）の臨床試験がスタートしています。
+Sonic PiではRubyがプログラミング言語として利用されていますが、Sonic Pi特有の表現（関数定義法など）が多数登場します。
+<br>
+初めて見るメソッドが登場した時に、Rubyデフォルトのものであれば、Sonic Piのドキュメントを見ても説明されていませんし、Sonic Pi特有のものであれば、terminalなどで使うことができないことになります。
+<br>
+Rubyのメソッドか？Sonic Piのメソッドか？気にかけるようにしましょう。
+<br>
+今回紹介する、set, getはTime Stateを操る、Sonic Pi特有のメソッドです。それではいきましょう。
 </p>
 
-<h3>
-<a href="http://www.crisprtx.com/">CRISPR Therapeutics</a>
-</h3>
+<h3>Time Stateとは？</h3>
 
 <p style="margin-bottom:2em;">
-スイスの企業で2013年にEmmanuelle Charpentier（CRISPR/Cas9の中核となるメカニズムを解明した研究者です。）によって設立されました。研究チームが治療を目指している疾患はβサラセミア、鎌状赤血球症、血友病、嚢胞性線維症、デュシェンヌ型筋ジストロフィーなどです。
+Time Stateとは、Global memory store（プログラムの開始と同時に割り当てられ、終了するまで解放されることのないメモリ）のことです。<code>set</code>と<code>get</code>で扱っていくことになります。
+</p>
+
+<h3>Set</h3>
+
+<p style="margin-bottom:2em;">
+Time Stateに持たせる情報は２つあります。
+<div class="box11">
+<p>
+・持たせたい情報
+<br>
+・情報のキーネーム
+</p>
+</div>
+書き方としては下のようになります。
+<pre>
+set :intensity, 3000
+</pre>
+intensityがキーネーム、3000が情報になります。
+</p>
+
+<h3>Get</h3>
+<p style="margin-bottom:2em;">
+<code>get</code>を使って、<code>set</code>で設定した情報を取り出します。先ほど作った情報をキーネームで呼び出しましょう。
+<pre>
+get [:intensity]
+</pre>
+これで大丈夫です。
 </p>
     </div><!-- /.entry-content -->
 

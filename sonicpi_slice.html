@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>Sonic Piでスライス</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fermentation.html">fermentation</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/memo.html">Memo</a></li>
+                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/sonicpi_slice.html" rel="bookmark"
+           title="Permalink to Sonic Piでスライス">Sonic Piでスライス</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
+        </address>
+<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
+<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
+</footer><!-- /.post-info -->      <h3>スライスとは？</h3>
+
+<p style="margin-bottom:2em;">
+DJシーンでも、サンプル音源を細切れにして、必要な部分だけを利用することがあります。これが、スライスです。DTMソフトによってはドラムのアタックを検出して自動で細切れにしてくれたりするものもあります。
+<br>
+余談ですが、データサイエンスの世界では、<code>slice and dice</code>と言いますが、これは
+<br>
+<code>To rearrange or analyze in a number of different ways, often arbitrarily.</code>
+<br>
+と説明されています。
+</p>
+
+<h3>Sonic Piでスライスしてみよう。</h3>
+
+<p style="margin-bottom:2em;">
+まずは、サンプルの抜き出す部分を設定する方法を知りましょう。
+下の例のように<code>start: </code><code>finish: </code>を使うことによって、音源の始める場所と終わる場所を指定することができます。0~1の数値を設定でき、0が最初で、1が最後です。
+<pre>
+sample :loop_amen, finish: 0.5
+</pre>
+<pre>
+sample :loop_amen, start: 0.25, finish: 0.5
+</pre>
+<pre>
+sample :loop_amen, start: 0.5, finish: 0.25
+</pre>
+３つ目の例では<code>finish:</code>が<code>start:</code>よりも前に来ていますが、この場合は、逆再生されることになります。
+</p>
+<h3>再構成しよう</h3>
+<p style="margin-bottom:2em;">
+スライスしたサンプルを並べ替えて再生してみましょう。
+<pre>
+live_loop :beat_slicer do
+  slice_idx = rand_i(8)
+  slice_size = 0.125
+  s = slice_idx * slice_size
+  f = s + slice_size
+  sample :loop_amen, start: s, finish: f
+  sleep sample_duration :loop_amen, start: s, finish: f
+end
+</pre>
+サンプル(loop_amen)を８等分し、<code>rand_i(8)</code>でランダムにシャッフルしています。
+</p>
+
+<pre>
+live_loop :sliced_amen do
+  n = 8
+  s = line(0, 1, steps: n).choose
+  f = s + (1.0 / n)
+  sample :loop_amen, beat_stretch: 2, start: s, finish: f
+  sleep 2.0 / n
+end
+
+live_loop :acid_bass do
+  with_fx :reverb, room: 1, reps: 32, amp: 0.6 do
+    tick
+    n = (octs :e0, 3).look - (knit 0, 3 * 8, -4, 3 * 8).look
+    co = rrand(70, 110)
+    synth :beep, note: n + 36, release: 0.1, wave: 0, cutoff: co
+    synth :tb303, note: n, release: 0.2, wave: 0, cutoff: co
+    sleep (ring 0.125, 0.25).look
+  end
+end
+</pre>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

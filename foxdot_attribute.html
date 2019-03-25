@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
         <meta charset="utf-8" />
-        <title>CRISPER関連企業</title>
+        <title>FoxDot Player Attribute</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 </head>
 
@@ -11,8 +11,8 @@
                 <h1><a href="/">Yuna06 </a></h1>
                 <nav><ul>
                     <li><a href="/category/fermentation.html">fermentation</a></li>
-                    <li><a href="/category/foxdot.html">foxdot</a></li>
-                    <li class="active"><a href="/category/genome.html">genome</a></li>
+                    <li class="active"><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
                     <li><a href="/category/memo.html">Memo</a></li>
                     <li><a href="/category/sonicpi.html">sonicpi</a></li>
                 </ul></nav>
@@ -21,8 +21,8 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/crisper_company.html" rel="bookmark"
-           title="Permalink to CRISPER関連企業">CRISPER関連企業</a></h1>
+        <a href="/foxdot_attribute.html" rel="bookmark"
+           title="Permalink to FoxDot Player Attribute">FoxDot Player Attribute</a></h1>
     </header>
 
     <div class="entry-content">
@@ -34,35 +34,66 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
         </address>
-<p>In <a href="/category/genome.html">genome</a>.</p>
-<p>tags: <a href="/tag/genome.html">genome</a> </p>
+<p>In <a href="/category/foxdot.html">foxdot</a>.</p>
+<p>tags: <a href="/tag/foxdot.html">foxdot</a> </p>
 </footer><!-- /.post-info -->      <p style="margin-bottom:2em;">
-CRISPERは2012年に開発された、最も新しく、効率的で、正確なゲノム編集技術です。数々のスタートアップが出現し、倫理的課題もあるものの、チャンスが多く存在している領域です。将来的には癌、マラリア、遺伝病の治療法として大きな期待ができます。今回もCRISPRにまつわる有名企業を紹介していきます。
+<code>SynthDefs</code>は様々なオプションをとることができます。オプションは大きく<code>attribute</code>と<code>effect</code>の２つに分けることができます。attributeは音階やタイミングを規定するもので、effetはどのような音を鳴らすかを決めるものです。
+<br>
+オプションのキーワードは次のコードを打ち込むことで確認することができます。
+<pre>
+print(Player.get_attributes()
+>>
+('degree', 'oct', 'dur', 'delay', 'blur', 'amplify', 'scale', 'bpm', 'sample', 'sus', 'fmod', 'pan', 'rate', 'amp', 'vib', 'vibdepth', 'slide', 'sus', 'slidedelay', 'slidefrom', 'bend', 'benddelay', 'coarse', 'striate', 'pshift', 'hpf', 'hpr', 'lpf', 'lpr', 'swell', 'bpf', 'bpr', 'bits', 'amp', 'crush', 'dist', 'chop', 'tremolo', 'echo', 'decay', 'spin', 'cut', 'room', 'mix', 'formant', 'shape')
+</pre>
 </p>
 
-<h3>
-<a href="http://www.intelliatx.com/">Intellia Therapeutics</a>
-</h3>
-
-<p style="margin-bottom:2em;>
-Intellia Therapeuticsはゲノム編集企業で、CRISPR/Cas9を使って生命を脅かすような病気の治療を目指しています。研究者であるJennifer Doudna、カリフォルニア大学が開発を進めています。NovartisやRegeneronとも提携関係にあります。
-</p>
-
-<h3>
-<a href="http://www.editasmedicine.com/">Editas Medicine</a>
-</h3>
-
+<h2>attirbute</h2>
 <p style="margin-bottom:2em;">
-Editas Medicineはケンブリッジに拠点を置く企業で、CRISPR-Cas9遺伝子編集技術に基づいた治療開発を行なっています。CEOである、Katrine BosleyはCRISPRは遺伝子を修復できるので、ハンチントン病や嚢胞性線維症などの疾患治療に役立てるとしています。2017年からCRISPRを用いたレーバー先天性黒内障（希少な遺伝性疾患で失明をきたします。）の臨床試験がスタートしています。
+playerオブジェクトのattributeにダイレクトに値を代入することができるので、以下のコードは同じ意味になります。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=1/2, sus=2)
+</pre>
+<pre>
+p1 >> pluck()
+p1.degree = [0, 1, 2, 3]
+p1.dur = 1/2
+p1.sus = 2
+</pre>
 </p>
 
-<h3>
-<a href="http://www.crisprtx.com/">CRISPR Therapeutics</a>
-</h3>
-
+<h3>degree</h3>
 <p style="margin-bottom:2em;">
-スイスの企業で2013年にEmmanuelle Charpentier（CRISPR/Cas9の中核となるメカニズムを解明した研究者です。）によって設立されました。研究チームが治療を目指している疾患はβサラセミア、鎌状赤血球症、血友病、嚢胞性線維症、デュシェンヌ型筋ジストロフィーなどです。
+ピッチを設定します。デフォルトスケールはC Majorにっています。
+<pre>
+p1 >> pluck([0, 1, 2, 3])
+</pre>
 </p>
+
+<h3>oct</h3>
+<p style="margin-bottom:2em;">
+octではノートを演奏したいオクターブを指定します。デフォルトでは5で、一オクターブが12半音なので、普通にplayerオブジェクトを再生すると60th半音で始まります。
+<pre>
+p1 >> pluck(oct=[4, 5, 6])
+</pre>
+</p>
+
+<h3>dur</h3>
+<p style="margin-bottom:2em;">
+音の長さを指定します。少数、分数も可能です。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=[0.1,0.3,0.43,0.17])
+</pre>
+0を使った場合演奏しなくなります。<code>rest</code>を使うと、指定した時間ミュートします。
+<pre>
+p1 >> pluck([0, 1, 2, 3], dur=[1, 1, rest(2)])
+</pre>
+</p>
+
+<h3>degree</h3>
+<p style="margin-bottom:2em;">
+
+<h3>degree</h3>
+<p style="margin-bottom:2em;">
     </div><!-- /.entry-content -->
 
   </article>
