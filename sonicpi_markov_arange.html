@@ -50,7 +50,7 @@
 <p style="margin-bottom:2em;">
 いきなりですが、完成品をSonic Piで再生してみてください。
 
->||ruby
+<pre name="code" class="ruby">
 
 #############################################################
 ###                                                       ###
@@ -329,13 +329,12 @@ live_loop :snare do
     end
   end
 end
-||<
+</pre>
 
 長いですが、一つ一つ理解していきましょう。<a href="https://yuna06.work/2019/01/23/%E3%83%9E%E3%83%AB%E3%82%B3%E3%83%95%E9%80%A3%E9%8E%96%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6sonic-pi%E3%81%A7beat%E3%82%92%E4%BD%9C%E3%82%8D%E3%81%86%E3%80%82/">マルコフ連鎖を使ってSONIC PIでBEATを作ろう。</a>で説明済みの部分は省略気味になります。
 </p>
 
 <h3>OCSを使ってウインドウと同期しよう</h3>
-
 <p style="margin-bottom:2em;>
 <pre>
 use_osc "192.168.1.7", 57121
