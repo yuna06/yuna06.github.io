@@ -42,9 +42,9 @@
 </p>
 
 <p style="margin-bottom:2em;">
-
-wzxhzdk:0
-
+<pre>
+chord_degree degree (symbol_or_number), tonic (symbol), scale (symbol), number_of_notes (number)
+</pre>
 </p>
 
 <p style="margin-bottom:2em;">
@@ -81,9 +81,12 @@
 
 <p style="margin-bottom:2em;">
 使用例を見ていきましょう。
-
-wzxhzdk:1
-
+<pre>
+# Aメジャーコードを演奏します。
+play chord_degree(:i, :A3, :major, 3)
+# Bがスケール開始音のAメジャーコード、つまりBマイナーコードです。
+play chord_degree(:ii, :A3, :major, 3)
+</pre>
 </p>
     </div><!-- /.entry-content -->
 

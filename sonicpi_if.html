@@ -45,15 +45,34 @@
 Sonic Piでランダムにシンバルやドラムを演奏したいときなどに<code>if</code>を使います。（ランダムノートなどは別の方法で実現します。）
 <code>one_in</code>でランダムな数字を生成し、その結果によって処理を分岐させます。今回は1,2をランダムに生成し、2ならばドラム、それ以外(1)ならば、シンバルを演奏します。Rubyではif文の最後にもendをつけることを覚えておきましょう。これがブロックが終了する目印になります。
 
-wzxhzdk:0
+<pre>
+loop do
 
+  if one_in(2)
+    sample :drum_heavy_kick
+  else
+    sample :drum_cymbal_closed
+  end
+
+  sleep 0.5
+
+end
+</pre>
 </p>
 
 <p style="margin-bottom:2em;">
 また、下の例のように実行内容の後ろにif文をつけると、読みやすいコードを作ることができます。
+<pre>
+use_synth :dsaw
 
-wzxhzdk:1
-
+loop do
+  play 50, amp: 0.3, release: 2
+  play 53, amp: 0.3, release: 2 if one_in(2)
+  play 57, amp: 0.3, release: 2 if one_in(3)
+  play 60, amp: 0.3, release: 2 if one_in(4)
+  sleep 1.5
+end
+</pre>
 </p>
     </div><!-- /.entry-content -->
 

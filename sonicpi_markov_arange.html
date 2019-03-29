@@ -49,9 +49,285 @@
 
 <p style="margin-bottom:2em;">
 いきなりですが、完成品をSonic Piで再生してみてください。
+[code lang="Ruby"]
+#############################################################
+###                                                       ###
+###              Made using SonicPi 3.1                   ###
+###                                                       ###
+###     by Omar Delarosa (https://omardelarosa.com)       ###
+###                                                       ###
+#############################################################
 
-wzxhzdk:0
+use_bpm 70
+T = 4.0
 
+use_osc "192.168.1.7", 57121 # this synchronizes with the OSC server in the window. <-
+
+# State machine utility functions
+define :markov do |a, h| h[a].sample; end # Chooses the next state at  random from hash
+define :g do |k| get[k]; end # simplified root note in scale getter
+define :s do |k, n| set k, n; end # simplified root note setter
+define :mnote do |key,chain| s key, (markov (g key), chain); g key; end
+
+# Pattern parsing
+define :ringify do |p| p.gsub(' ', '') .split('').map(&:to_i).ring; end
+
+# Melody builder
+define :make_melody do |len = 16, rng = 2|
+  (1..len).map{|n| ((rng*-1)..rng).to_a.sample }.ring
+end
+
+# Initialize states
+set :k, 1
+set :b, 0
+set :s, 0
+set :y, 0
+set :v, 4
+set :h, 0
+set :l_lead, 0
+set :l_hats, 0
+set :l_kick, 0
+set :l_snare, 0
+set :l_vox, 1
+
+# Note playing abstraction
+define :pplay do |n, d = 0.1, m = 0.0, r = 0.0, syn = :fm|
+  with_fx :reverb, mix: r do
+    use_synth syn
+    play n, release: d, sustain: 0.1
+  end
+end
+
+# Scale
+sc_root = :F2
+sc_type = :major
+sc = scale(sc_root, sc_type)
+
+# Chords in scale -- chords are defined here.
+chords = (1..7).map {|n| chord_degree n, sc_root, sc_type }.ring
+
+# Samples
+SAMPLE_PATH = '~/Dropbox/Code/Music/SonicPi/Samples/Songs/Drake/'
+
+# Elaboration/Arrangement
+elaboration_complexities = (knit, 2, 4, 3, 2, 4, 2)
+
+# Levels
+L = {
+  ppiano: [0.0, 0.35].ring,
+  kick: [0.0, 0.75].ring,
+  snare: [0.0, 0.75].ring,
+  hats: [0.0, 1.5].ring,
+  vox: [0.0, 5.0].ring
+}
+
+# Levels --- This is a markov chain controlling track/instrument levels.
+LV = {
+  0 => [0,0,1,1],
+  1 => [1,1,1,0]
+}
+
+# Tone family
+TONES = [:pulse, :fm, :pretty_bell]
+
+# Rhythm patterns -- kick drum patterns, each one is a single "state"
+p1 = [
+  (ringify '4000 0000 0040 0000'),
+  (ringify '4020 0000 4000 0000'),
+  (ringify '4023 0010 4020 0000'),
+  (ringify '4030 0020 4020 1000')
+]
+
+# Kicks -- The markov chain controlling kick drum state transitions.
+B = {
+  0 => [0, 1, 0, 2],
+  1 => [0],
+  2 => [1, 0, 3],
+  3 => [0]
+}
+
+# Snare drum patterns.  Each one is also a single state.
+p2 = [
+  (ringify '0000 4000'),
+  (ringify '0100 4000'),
+  (ringify '1000 4000'),
+  (ringify '0100 4100'),
+  (ringify '0001 3001')
+]
+
+# Snares - markov chain (but really just a hash representation of transitions)
+S = {
+  0 => [0, 0, 0, 0, 1, 2, 3],
+  1 => [0, 0, 1],
+  2 => [1, 0, 4, 3],
+  3 => [0],
+  4 => [0]
+}
+
+# Chords -- chord transitions
+K = {
+  1 => [7],
+  2 => [1],
+  7 => [2, 5],
+  5 => [1, 6],
+  6 => [2],
+  2 => [5]
+}
+
+melodies = (1..4).map{|n| make_melody(16,2)}.ring
+
+# Melodies
+Y = {
+  0 => [1],
+  1 => [0, 1, 2],
+  2 => [1, 2],
+  3 => [1]
+}
+
+# Vox
+V = {
+  0 => [0,0,1],
+  1 => [1,1,2],
+  2 => [2,2,3],
+  3 => [3,3,4],
+  4 => [4,4,0]
+}
+
+# Hats
+hats_durations = [
+  (knit, T/16, 4),
+  (knit, T/24, 6),
+  (knit, T/16, 4),
+  (knit, T/24, 6),
+  (knit, T/16, 4),
+  (knit, T/64, 8)
+].ring
+
+H = {
+  0 => [1],
+  1 => [2],
+  2 => [3],
+  3 => [4],
+  4 => [5],
+  5 => [0],
+}
+
+define :pchord do |chr, d = T|
+  with_fx :level, amp: 0.3 do
+    ##| pplay chr[0], d, 0.8
+    ##| pplay chr[1] + 24, d, 0.4
+    ##| pplay chr[2], d, 0.8
+    ##| pplay chr[3] + 12, d, 0.4
+  end
+end
+
+live_loop :vox do
+  s = mnote :v, V
+  # Control vocal levels
+  lv = mnote :l_vox, LV
+  l = L[:vox][lv]
+  with_fx :level, amp: l do
+    with_fx :reverb, mix: 0.5 do
+      sample SAMPLE_PATH, s
+    end
+  end
+  sleep (T/1) * 2
+end
+
+live_loop :ppiano do
+  chr = chords[mnote :k, K]
+  pchord chr # Chord (left hand)
+  complexity = elaboration_complexities.tick
+  sleep T/(2**complexity)
+  lv = mnote :l_lead, LV
+  l = L[:ppiano][lv]
+  t = TONES.sample
+  melody = mnote :y, Y
+  with_fx :echo, mix: 0.8 do
+    (3*(complexity-1)-1).times do
+      with_fx :level, amp: l do
+        i = melodies[melody].tick
+        pplay sc[i] + 24, (T/complexity-1), nil, nil, t
+        16.times do |n|
+          # This controls the visualization synced to the lead.
+          osc "/blink/#{(8 + i) % 8}/#{n}/0" if l > 0.0
+        end
+        sleep T/(2**complexity)
+      end
+    end
+  end
+
+  chr2 = chords[mnote :k, K]
+  pchord chr2, T/4 # Chord
+  with_fx :echo, mix: 0.8 do
+    (1*(complexity-1)).times do
+      with_fx :level, amp: l do
+        i = melodies[melody].tick
+        pplay sc[i] + 24, (T/complexity-1), nil, nil, t # Melody (right hand)
+        16.times do |n|
+          osc "/blink/#{(8 + i) % 8}/#{n}/0" if l > 0.0
+        end
+        sleep T/(2**complexity)
+      end
+    end
+  end
+end
+
+
+live_loop :kick do
+  p = p1[mnote :b, B]
+  lv = mnote :l_kick, LV
+  l = L[:kick][lv]
+  c = 0
+  density (p.length / 2) do
+    with_fx :level, amp: l do
+      sample :bd_fat, amp: 3.5 if p.tick >= 1
+      8.times do |n|
+        osc "/blink/#{n}/#{c}/1" if p.look >= 1 && l > 0.0
+      end
+      c+=1
+      sleep 1
+    end
+  end
+end
+
+live_loop :hats do
+  p = hats_durations[mnote :h, H]
+  lv = mnote :l_hats, LV
+  l = L[:hats][lv]
+  c = 0
+  density (p.length) do
+    with_fx :level, amp: l do
+      sample :elec_tick, amp: 1.5, decay: 0.1
+      8.times do |n|
+        osc "/blink/#{n}/#{c}/2" if l > 0.0
+      end
+      c+=1
+      sleep 1
+    end
+  end
+end
+
+# This controls the snares.
+live_loop :snare do
+  # This mnote call fetches a pattern from the snare states.
+  p = p2[mnote :s, S]
+  # This mnote call fetches the level from the levels state for snare track.
+  lv = mnote :l_snare, LV
+  l = L[:snare][lv]
+  c = 0
+  density (p.length / 2) do
+    with_fx :level, amp: l do
+      sample :sn_dolf if p.tick >= 1
+      16.times do |n|
+        osc "/blink/#{n}/#{c}/3" if p.look >= 1 && l > 0.0
+      end
+      c+=1
+      sleep 1
+    end
+  end
+end
+[/code]
 
 長いですが、一つ一つ理解していきましょう。<a href="https://yuna06.work/2019/01/23/%E3%83%9E%E3%83%AB%E3%82%B3%E3%83%95%E9%80%A3%E9%8E%96%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6sonic-pi%E3%81%A7beat%E3%82%92%E4%BD%9C%E3%82%8D%E3%81%86%E3%80%82/">マルコフ連鎖を使ってSONIC PIでBEATを作ろう。</a>で説明済みの部分は省略気味になります。
 </p>
@@ -59,14 +335,13 @@
 <h3>OCSを使ってウインドウと同期しよう</h3>
 
 <p style="margin-bottom:2em;>
-
-wzxhzdk:1
-
+<pre>
+use_osc "192.168.1.7", 57121
+</pre>
 OSC（詳しくは<a href="https://yuna06.work/2019/01/26/osc%E3%82%92%E4%BD%BF%E3%81%8A%E3%81%86%e3%80%80sonic-pi/">OSCを使おう　SONIC PI</a>を参照）をSonic Piから送信しています。<code>"192.168.1.7"</code>がIPアドレス、<code>57121</code>がポート番号を示しています。これによってウインドウのOSCサーバーと同期できます。
 </p>
 
 <h3>マルコフチェーンモデル</h3>
-
 <p style="margin-bottom:2em";>
 <code># State machine utility functions</code>のブロックはマルコフチャーンモデルの心臓部分の関数定義を行なっています。最終的な関数は<code>mnote</code>で、演奏パターンを決定する役割を持っています。
 <br>
@@ -74,26 +349,29 @@ OSC（詳しくは<a href="https://yuna06.work/2019/01/26/osc%E3%82%92%E4%BD%BF%
 </p>
 
 <h3>メロディー関数</h3>
-
 <p style="margin-bottom:2em";>
 <code>:make_melody</code>では、<code>len</code>, <code>rng</code>でそれぞれメロディー音の長さとルート音からの距離を指定しています。
 </p>
 
 <h3>初期値設定</h3>
-
 <p style="margin-bottom:2em";>
 <code># Initialize states</code>のセクションでは<code>set</code>を使って演奏パターンの初期値を設定しています。マルコフニコフ連鎖モデルの初期値です。
 </p>
 
-<h3>初期値設定</h3>
 
+<h3>初期値設定</h3>
 <p style="margin-bottom:2em";>
 下の<code>LV</code>ではコード以外の音量を決めています。0は演奏しない（音量ゼロ）、1は演奏するということになります。
 <br>
 最初に<code>0 => [0,0,0,0],</code>としておくことによって、0から1に変化できないので、音量はずっとゼロです。
 
-wzxhzdk:2
-
+<pre>
+# Levels --- This is a markov chain controlling track/instrument levels.
+LV = {
+  0 => [0,0,0,0],
+  1 => [1,1,1,0]
+}
+</pre>
 
 <h3>:kick解説</h3>
 <p style="margin-bottom:2em";>
@@ -107,39 +385,39 @@ OSC（詳しくは<a href="https://yuna06.work/2019/01/26/osc%E3%82%92%E4%BD%BF%
   </tr>
   <tr>
     <td>L</td>
-    <td>```rubyL = {
+    <td><pre>L = {
   ppiano: [0.0, 0.35].ring,
   kick: [0.0, 0.75].ring,
   snare: [0.0, 0.75].ring,
   hats: [0.0, 1.5].ring,
   vox: [0.0, 5.0].ring
-}```</td>
+}</pre></td>
     <td>各楽器の最大音量と最小音量</td>
   </tr>
   <tr>
     <td>l_kick</td>
-    <td>```rubyset :l_kick, 0```</td>
+    <td><pre>set :l_kick, 0</pre></td>
     <td>Lの初期値</td>
   </tr>
   </tr>
   <tr>
     <td>LV</td>
-    <td>```rubyLV = {
+    <td><pre>LV = {
   0 => [0,0,1,1],
   1 => [1,1,1,0]
 }
-```</td>
+</pre></td>
     <td>0なら最小音量、1なら最大音量。マルコフニコフ連鎖モデルの従う確率を決める。</td>
   </tr>
   </tr>
   <tr>
     <td>lv</td>
-    <td>```rubylv = mnote :l_kick, LV```</td>
+    <td><pre>lv = mnote :l_kick, LV</pre></td>
     <td><code>l_kick</code>を初期値にとって、LVの確率のマルコフニコフ連鎖モデルに従って0か1の値をとる。</td>
   </tr>
   <tr>
     <td>l</td>
-    <td>```rubyl = L[:kick][lv]```</td>
+    <td><pre>l = L[:kick][lv]</pre></td>
     <td>Lのkickの中から要素を一つ選ぶ。今回は0.0 or 0.75</td>
   </tr>
 
@@ -154,33 +432,33 @@ OSC（詳しくは<a href="https://yuna06.work/2019/01/26/osc%E3%82%92%E4%BD%BF%
   </tr>
   <tr>
     <td>b</td>
-    <td>```rubyset :b, 0```</td>
+    <td><pre>set :b, 0</pre></td>
     <td>Bの初期値</td>
   </tr>
   <tr>
     <td>B</td>
-    <td>```rubyB = {
+    <td><pre>B = {
   0 => [0, 1, 0, 2],
   1 => [0],
   2 => [1, 0, 3],
   3 => [0]
-}```</td>
+}</pre></td>
     <td>演奏パターンをマルコフニコフ連鎖モデルで決める時の確率設定</td>
   </tr>
   <tr>
     <td>p1</td>
-    <td>```rubyp1 = [
+    <td><pre>p1 = [
   (ringify '4000 0000 0040 0000'),
   (ringify '4020 0000 4000 0000'),
   (ringify '4023 0010 4020 0000'),
   (ringify '4030 0020 4020 1000')
 ]
-```</td>
+</pre></td>
     <td>演奏パターン一覧</td>
   </tr>
   <tr>
     <td>p</td>
-    <td>```rubyp = p1[mnote :b, B]```</td>
+    <td><pre>p = p1[mnote :b, B]</pre></td>
     <td>p1の中からパターンを一つ選んだものが入っている。</td>
   </tr>
 
@@ -200,9 +478,14 @@ OSC（詳しくは<a href="https://yuna06.work/2019/01/26/osc%E3%82%92%E4%BD%BF%
 </p>
 
 <p style="margin-bottom:2em";>
-
-wzxhzdk:3
-
+<pre>
+density (p.length / 2) do
+    with_fx :level, amp: l do
+      sample :bd_fat, amp: 3.5 if p.tick >= 1
+      sleep 1
+    end
+end
+</pre>
 <code>density</code>は、pの配列の長さの半分の回数繰り返し演奏をさせています。<code>density</code>について詳しくは、<a href="https://yuna06.work/squash-and-repeat-time/">Squash and Repeat Time</a>を参考にしてください。
 </p>
 
@@ -230,13 +513,23 @@ omar delarosaさんの演奏が実際に<a href="https://www.youtube.com/watch?v
 <h3>コードをコントロール</h3>
 <p style="margin-bottom:2em";>
 <code>K</code>を操作することでコードの変遷をコントロールすることができます。
-
-wzxhzdk:4
-
+<pre>
+K = {
+  1 => [7],
+  2 => [1],
+  7 => [2, 5],
+  5 => [1, 6],
+  6 => [2],
+  2 => [5]
+}
+</pre>
 デフォルトでは上のようになっていますが、<a href="https://www.youtube.com/watch?v=4SemYvZ58FU">demo動画</a>の途中では下のようにして、コードの数を制限してます。
-
-wzxhzdk:5
-
+<pre>
+K = {
+  1 => [7],
+  7 => [1]
+}
+</pre>
 </p>
     </div><!-- /.entry-content -->
 
