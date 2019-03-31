@@ -20,7 +20,7 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/lorenz06.html">ローレンツ曲線とPythonで日本人の年収の偏りを示そう！</a></h1>
+                    <h1 class="entry-title"><a href="/lorenz06opn.html">ローレンツ曲線とPythonで日本人の年収の偏りを示そう！</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2019-03-25T23:00:00+09:00">
                 Published: Mon 25 March 2019
@@ -31,60 +31,23 @@
         </address>
 <p>In <a href="/category/tong-ji.html">統計</a>.</p>
 <p>tags: <a href="/tag/tong-ji.html">統計</a> </p>
-</footer><!-- /.post-info --><!DOCTYPE html>
-<html lang="ja">
-<head>
-        <meta charset="utf-8" />
-        <title>ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-</head>
+</footer><!-- /.post-info --><p><strong>ローレンツ曲線とは</strong></p>
 
-<p><body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Yuna06 </a></h1>
-                <nav><ul>
-                    <li><a href="/category/fa-xiao.html">発酵</a></li>
-                    <li><a href="/category/foxdot.html">foxdot</a></li>
-                    <li><a href="/category/genome.html">genome</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
-                    <li class="active"><a href="/category/tong-ji.html">統計</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/lorenz.html" rel="bookmark"
-           title="Permalink to ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！">ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！</a></h1>
-    </header></p>
-<div class="highlight"><pre><span></span>&amp;lt;div class=&quot;entry-content&quot;&amp;gt;
-</pre></div>
-
-
-<p><footer class="post-info">
-        <abbr class="published" title="2019-03-25T23:00:00+09:00">
-                Published: Mon 25 March 2019
-        </abbr></p>
-<div class="highlight"><pre><span></span>    &amp;lt;address class=&quot;vcard author&quot;&amp;gt;
-            By                         &amp;lt;a class=&quot;url fn&quot; href=&quot;/author/yuna06.html&quot;&amp;gt;yuna06&amp;lt;/a&amp;gt;
-    &amp;lt;/address&amp;gt;
-</pre></div>
-
-
-<p><p>In <a href="/category/tong-ji.html">統計</a>.</p>
-<p>tags: <a href="/tag/tong-ji.html">統計</a> </p>
-</footer><!-- /.post-info -->      <p>このページでは統計初学者向けにローレンツ曲線とその意味、使い所について説明し、Pythonを使って実際にデータ解析を行ってみます。</p>
-<p><strong>ローレンツ曲線とは</strong></p>
 <p>ローレンツ曲線とは、横軸にも縦軸にも累積相対度数を使って、描いたグラフのことです。何かの偏りを示したいときに利用されることが多いです。</p>
+
 <p><strong>ローレンツ曲線はどんな時に使うの？</strong></p>
+
 <p>何か「これには偏りがあるのではないか？」と思ったら試しに書いてみるといいでしょう。</p>
+
 <p>今回は日本人の年収に偏りがあるのかローレンツ曲線を使って見てみたいと思います。
 <a href="https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa15/index.html">厚生労働省のHPから</a>から、<a href="https://www.mhlw.go.jp/toukei/saikin/hw/k-tyosa/k-tyosa15/xls/13.xls">世帯別年収データ</a>をダウンロードして、jupyter labで作業をするディレクトリに置きます。私はnumbersで一度開いて、csvに変換しました。データは "data"ディレクトリの中にあります。</p>
+
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-</pre></div></p>
+</pre></div>
+
 <p>とりあえず、データを読み込んで中をのぞいてみましょう。</p>
 
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/income.csv&#39;</span><span class="p">)</span>
