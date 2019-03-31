@@ -36,6 +36,48 @@
         </address>
 <p>In <a href="/category/tong-ji.html">統計</a>.</p>
 <p>tags: <a href="/tag/tong-ji.html">統計</a> </p>
+</footer><!-- /.post-info -->      <!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<p><body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Yuna06 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/fa-xiao.html">発酵</a></li>
+                    <li><a href="/category/foxdot.html">foxdot</a></li>
+                    <li><a href="/category/genome.html">genome</a></li>
+                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
+                    <li class="active"><a href="/category/tong-ji.html">統計</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/lorenz.html" rel="bookmark"
+           title="Permalink to ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！">ローレンツ曲線とPythonを使って日本人の年収の偏りを証明しよう！</a></h1>
+    </header></p>
+<div class="highlight"><pre><span></span>&amp;lt;div class=&quot;entry-content&quot;&amp;gt;
+</pre></div>
+
+
+<p><footer class="post-info">
+        <abbr class="published" title="2019-03-25T23:00:00+09:00">
+                Published: Mon 25 March 2019
+        </abbr></p>
+<div class="highlight"><pre><span></span>    &amp;lt;address class=&quot;vcard author&quot;&amp;gt;
+            By                         &amp;lt;a class=&quot;url fn&quot; href=&quot;/author/yuna06.html&quot;&amp;gt;yuna06&amp;lt;/a&amp;gt;
+    &amp;lt;/address&amp;gt;
+</pre></div>
+
+
+<p><p>In <a href="/category/tong-ji.html">統計</a>.</p>
+<p>tags: <a href="/tag/tong-ji.html">統計</a> </p>
 </footer><!-- /.post-info -->      <p>このページでは統計初学者向けにローレンツ曲線とその意味、使い所について説明し、Pythonを使って実際にデータ解析を行ってみます。</p>
 <p><strong>ローレンツ曲線とは</strong></p>
 <p>ローレンツ曲線とは、横軸にも縦軸にも累積相対度数を使って、描いたグラフのことです。何かの偏りを示したいときに利用されることが多いです。</p>
@@ -47,14 +89,12 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-</pre></div>
-
-
+</pre></div></p>
 <p>とりあえず、データを読み込んで中をのぞいてみましょう。</p>
+
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/income.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
-
 
 <div>
 <style scoped>
@@ -479,13 +519,13 @@
 </div>
 
 <p>今回は全世帯の累積度数分布、相対度数分布の50万円未満〜1000万円以上のデータが必要なので、下のように適宜データを抜き出し、columnsとindexの名前をつけ直します。また、データがstringになっているので、floatに直します。</p>
+
 <div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">24</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">21</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
 <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
 <span class="n">df</span>
 </pre></div>
-
 
 <div>
 <style scoped>
@@ -600,9 +640,12 @@
 </div>
 
 <p>年収500万円までは50万円刻み、500万円からは100万円刻みで階級が分けられています。そこで、一つの階級の集団の年収が平均を仮定して、(平均年収✖️世帯数)の相対度数を求めます。</p>
+
 <p>例えば、200~250の階級の平均年収は225万円、600~700の階級の平均年収は650万円としています。
 1000万円以上の階級の平均年収はだいたい2000万円というデータがありましたので、今回は2000万円として計算します。</p>
+
 <p>計算できたらDataFrameを結合します。</p>
+
 <div class="highlight"><pre><span></span><span class="n">arr1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
 <span class="c1"># 年収0~500万円までの階級をarr1にappendしていく。</span>
@@ -622,8 +665,8 @@
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-
 <p>続いて、(平均年収✖️世帯数)の累積相対度数を求めて、DataFrameを結合します。</p>
+
 <div class="highlight"><pre><span></span><span class="n">arr2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)):</span>
@@ -635,11 +678,10 @@
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">,</span> <span class="n">df2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
-
 <p>完成したDataFrameは下のとうりです。</p>
+
 <div class="highlight"><pre><span></span><span class="n">df</span>
 </pre></div>
-
 
 <div>
 <style scoped>
@@ -790,6 +832,7 @@
 </div>
 
 <p>これではよくわからないので、視覚的に捉えられるようにmatplotlibでグラフを作りましょう。</p>
+
 <div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
@@ -805,15 +848,62 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
-
 <p><img alt="png" src="lorenz_files/lorenz_13_0.png"></p>
+
 <p>青色の曲線が今回書くことができた、ローレンツ曲線です。
 両軸ともに累積相対度数を通っているので最終的に値が100%になることは直感的に理解できると思います。
 ところで、y = x のグラフに比べて、下の方を伝っていることがわかると思います。
 これこそが、年収の分布に不均一性が存在していることを示しています。</p>
+
 <p>例えば、(平均年収*世帯数)の累積相対度数 = 20%のところで、だいたい、世帯数累積度 = 50%となっていますね。これは、日本人の年収の合計20%を年収の低い50%の人が受け取っているという意味になります。</p>
+
 <p>また、平均年収*世帯数)の累積相対度数 = 40%、世帯数累積度 = 80%となっているところもありますね、これは高級どり上位20%の人が、日本人の年収合計の60%を所有しているということになります。うーん、年収の不均等は確かに存在していそうですね。</p>
+
 <p>ちなみに y = x の直線をローレンツ曲線のグラフでは均等配分線と呼ばれ、直線のように分布していれば、年収の偏りは存在しないよいうことになります。逆に 均等配分線とローレンツ曲線で作られる三日月型の面積が多ければ大きいほど偏りが大きいということになります。</p>
+
+<div class="highlight"><pre><span></span>
+</pre></div>
+
+<div class="highlight"><pre><span></span>
+</pre></div>
+
+<div class="highlight"><pre><span></span>&amp;lt;/div&amp;gt;&amp;lt;!-- /.entry-content --&amp;gt;
+</pre></div>
+
+
+<p></article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul></p>
+<div class="highlight"><pre><span></span>                        <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">li</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">You</span> <span class="nt">can</span> <span class="nt">add</span> <span class="nt">links</span> <span class="nt">in</span> <span class="nt">your</span> <span class="nt">config</span> <span class="nt">file</span><span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">a</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">li</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+                        <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">li</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">Another</span> <span class="nt">social</span> <span class="nt">link</span><span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">a</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">li</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+                    <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">ul</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+            <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">div</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;!</span><span class="nt">--</span> <span class="o">/</span><span class="p">.</span><span class="nc">social</span> <span class="nt">--</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+    <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">section</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;!</span><span class="nt">--</span> <span class="o">/</span><span class="p">#</span><span class="nn">extras</span> <span class="nt">--</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+
+    <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">footer</span> <span class="nt">id</span><span class="o">=</span><span class="s2">&quot;contentinfo&quot;</span> <span class="nt">class</span><span class="o">=</span><span class="s2">&quot;body&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+            <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">address</span> <span class="nt">id</span><span class="o">=</span><span class="s2">&quot;about&quot;</span> <span class="nt">class</span><span class="o">=</span><span class="s2">&quot;vcard body&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+            <span class="nt">Proudly</span> <span class="nt">powered</span> <span class="nt">by</span> <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;http://getpelican.com/&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">Pelican</span><span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">a</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;,</span> <span class="nt">which</span> <span class="nt">takes</span> <span class="nt">great</span> <span class="nt">advantage</span> <span class="nt">of</span> <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;http://python.org&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">Python</span><span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">a</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;.</span>
+            <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">address</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;!</span><span class="nt">--</span> <span class="o">/</span><span class="p">#</span><span class="nn">about</span> <span class="nt">--</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+
+            <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">p</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">The</span> <span class="nt">theme</span> <span class="nt">is</span> <span class="nt">by</span> <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/&quot;</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span><span class="nt">Smashing</span> <span class="nt">Magazine</span><span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">a</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;,</span> <span class="nt">thanks</span><span class="o">!&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">p</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+    <span class="o">&amp;</span><span class="nt">lt</span><span class="o">;/</span><span class="nt">footer</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;&amp;</span><span class="nt">lt</span><span class="o">;!</span><span class="nt">--</span> <span class="o">/</span><span class="p">#</span><span class="nn">contentinfo</span> <span class="nt">--</span><span class="o">&amp;</span><span class="nt">gt</span><span class="o">;</span>
+</pre></div>
+
+
+<p></body>
+</html></p>
     </div><!-- /.entry-content -->
 
   </article>
