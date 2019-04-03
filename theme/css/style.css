@@ -23,13 +23,12 @@ h2 {
   font-size: 20pt;
 }
 
-h3 {
-    font-size: 100px;
-    padding-left: 11px;
-    border-left: solid 10px #2795b6;
-    margin-left: 3px;
-    color: #2d2d2d;
+h2 {
+  font-weight: bold;
+  font-size: 16pt;
 }
+
+
 
 h4 {
   font-size: 16pt;
@@ -117,26 +116,7 @@ ul.social li a:hover {
   opacity: 0.85;
 }
 
-.box11{
-    padding: 0.5em 1em;
-    margin: 4em 0;
-    color: #5d627b;
-    background: white;
-    border-top: solid 5px #5d627b;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
-}
 
-.box11 p {
-    margin: 0;
-    padding: 0;
-}
-
-/*
-<div class="box11">
-    <p></p>
-</div> */
-
-/* Ids */
 
 #header {
   display: flex;
