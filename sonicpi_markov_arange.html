@@ -1,43 +1,93 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-        <meta charset="utf-8" />
-        <title>Markov Chainモデルで作った曲を分析、アレンジしてみよう。</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Yuna06 </a></h1>
-                <nav><ul>
-                    <li><a href="/category/ar.html">AR</a></li>
-                    <li><a href="/category/fa-xiao.html">発酵</a></li>
-                    <li><a href="/category/foxdot.html">foxdot</a></li>
-                    <li><a href="/category/genome.html">genome</a></li>
-                    <li class="active"><a href="/category/sonicpi.html">sonicpi</a></li>
-                    <li><a href="/category/tong-ji.html">統計</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/sonicpi_markov_arange.html" rel="bookmark"
-           title="Permalink to Markov Chainモデルで作った曲を分析、アレンジしてみよう。">Markov Chainモデルで作った曲を分析、アレンジしてみよう。</a></h1>
-    </header>
+    <title>Markov Chainモデルで作った曲を分析、アレンジしてみよう。 &ndash; Yuna06</title>
 
-    <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2019-03-25T23:00:00+09:00">
-                Published: Mon 25 March 2019
-        </abbr>
+    <!-- Meta -->
+    <meta name="description" content="Yuna06 &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
-        </address>
-<p>In <a href="/category/sonicpi.html">sonicpi</a>.</p>
-<p>tags: <a href="/tag/sonicpi.html">sonicpi</a> </p>
-</footer><!-- /.post-info -->      <p style="margin-bottom:2em;">
+    <!-- Social -->
+    <meta property="article:author" content="yuna06" />
+    <meta property="article:section" content="sonicpi" />
+    <meta property="article:published_time" content="2019-03-25" />
+
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Markov Chainモデルで作った曲を分析、アレンジしてみよう。"/>
+    <meta property="og:description" content="Sonic Pi Markov"/>
+    <meta property="og:site_name" content="Yuna06" />
+    <meta property="og:url" content="/sonicpi_markov_arange.html"/>
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Markov Chainモデルで作った曲を分析、アレンジしてみよう。">
+    <meta name="twitter:description" content="Sonic Pi Markov">
+    <meta name="twitter:url" content="/sonicpi_markov_arange.html">
+
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" href="http://johndoe.disqus.com/latest.rss" title="Yuna06 Comments RSS Feed">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+    <link rel="stylesheet" type="text/css" href="/static/custom.css">
+
+    <!-- Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
+
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">y</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/ar.html">AR</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/fa-xiao.html">発酵</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/foxdot.html">foxdot</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/genome.html">genome</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/sonicpi.html">sonicpi</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/tong-ji.html">統計</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+
+
+    <br><br><br>
+
+    <article>
+      <header class="w3-container col-main">
+        <h1>Markov Chainモデルで作った曲を分析、アレンジしてみよう。</h1>
+        <div class="post-info">
+          <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+            <span><time datetime="2019-03-25T23:00:00+09:00">Mon 25 March 2019</time> in <a href="/category/sonicpi.html" title="All articles in category sonicpi">sonicpi</a></span>
+          </div>
+          <div>
+            <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+              <a href="/tag/sonicpi.html" title="All articles with Sonicpi tag">#sonicpi</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <br>
+
+
+      <div class="col-main w3-container">
+        <section id="content">
+          <p style="margin-bottom:2em;">
 今回はomar delarosaさんがSonic Piで作曲した <a href="https://www.youtube.com/watch?v=4SemYvZ58FU">ioxi - "Mondrian" (or Randomized Hip Hop + Sonic Pi + Drake)</a>を分析していきたいと思います。
 <br>
 <a href="https://github.com/omardelarosa/osc-browser-visualizers/blob/master/public/matrix-16x8/example-sonic-pi-driver.rb">GitHub</a>でコードが公開されていますし、<a href="https://www.youtube.com/watch?v=4SemYvZ58FU">YouTube</a>でも曲が公開されています。
@@ -534,37 +584,88 @@ K = {
 }
 </pre>
 </p>
-    </div><!-- /.entry-content -->
+        </section>
 
-  </article>
-</section>
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>links</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+        <br><br><br>
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+        <footer>
+          <div class="adjust-width">
+            <div id="author-block" class="w3-light-grey w3-border">
+              <div id="author-info">
+                <a href="http://mypersonalsite.com"><img style="width: 60px; height: 60px;" src="http://www.gravatar.com/avatar/abcdefghijkl?s=240" onerror="this.src='theme/images/avatar.png'" alt="Avatar"></a>
+                <div style="margin-left: 20px; margin-top: 15px;">
+                  <a href="http://mypersonalsite.com"><span id="author-name" class="w3-hover-text-dark-grey">yuna06</span></a>
+                  <p id="author-story">Hello world! I’m John Doe. I like coffee, birds and Python.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
+          <br><br><br>
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
+          <p style="font-size:10pt; font-style: italic;">Did you like this article? Share it with your friends!</p>
+          <div id="share" class="share">
+            <a href="http://www.facebook.com/sharer.php?u=/sonicpi_markov_arange.html&amp;t=Yuna06%3A%20Markov%20Chain%E3%83%A2%E3%83%87%E3%83%AB%E3%81%A7%E4%BD%9C%E3%81%A3%E3%81%9F%E6%9B%B2%E3%82%92%E5%88%86%E6%9E%90%E3%80%81%E3%82%A2%E3%83%AC%E3%83%B3%E3%82%B8%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%E3%80%82" target="_blank" class="w3-btn w3-indigo">
+              <i class="fa fa-facebook"></i> <span>Facebook</span>
+            </a>
+            <a href="http://twitter.com/share?url=/sonicpi_markov_arange.html&amp;text=Yuna06%3A%20Markov%20Chain%E3%83%A2%E3%83%87%E3%83%AB%E3%81%A7%E4%BD%9C%E3%81%A3%E3%81%9F%E6%9B%B2%E3%82%92%E5%88%86%E6%9E%90%E3%80%81%E3%82%A2%E3%83%AC%E3%83%B3%E3%82%B8%E3%81%97%E3%81%A6%E3%81%BF%E3%82%88%E3%81%86%E3%80%82" target="_blank" class="w3-btn w3-blue">
+              <i class="fa fa-twitter"></i> <span>Twitter</span>
+            </a>
+            <a href="https://plus.google.com/share?url=/sonicpi_markov_arange.html" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" class="w3-btn w3-red">
+              <i class="fa fa-google-plus"></i> <span>Google</span>
+            </a>
+          </div>
 
-</body>
+          <br><br><br>
+
+
+          <div id="disqus_thread"></div>
+          <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+             */
+            
+            var disqus_config = function () {
+              this.page.url = '';  // Replace PAGE_URL with your page's canonical URL variable
+              this.page.identifier = 'sonicpi_markov_arange'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            
+            (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+              var d = document, s = d.createElement('script');
+              
+              s.src = 'https://johndoe.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+              
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+          <br><br><br>
+
+        </footer>
+      </div>
+    </article>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2009&dash;2019          yuna06
+        </span>
+      </div>
+    </footer>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-12345678-9', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+  </body>
 </html>

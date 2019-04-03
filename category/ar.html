@@ -1,95 +1,127 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-        <meta charset="utf-8" />
-        <title>Yuna06 - AR</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<body id="index" class="home">
-        <header id="banner" class="body">
-                <h1><a href="/">Yuna06 </a></h1>
-                <nav><ul>
-                    <li class="active"><a href="/category/ar.html">AR</a></li>
-                    <li><a href="/category/fa-xiao.html">発酵</a></li>
-                    <li><a href="/category/foxdot.html">foxdot</a></li>
-                    <li><a href="/category/genome.html">genome</a></li>
-                    <li><a href="/category/sonicpi.html">sonicpi</a></li>
-                    <li><a href="/category/tong-ji.html">統計</a></li>
-                </ul></nav>
-        </header><!-- /#banner -->
+    <title>AR &ndash; Yuna06</title>
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="/ar_gesture.html"></a></h1>
-<footer class="post-info">
-        <abbr class="published" title="2019-03-25T23:00:00+09:00">
-                Published: Mon 25 March 2019
-        </abbr>
+    <!-- Meta -->
+    <meta name="description" content="Yuna06 &ndash; ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <address class="vcard author">
-                By                         <a class="url fn" href="/author/yuna06.html">yuna06</a>
-        </address>
-<p>In <a href="/category/ar.html">AR</a>.</p>
-<p>tags: <a href="/tag/ar.html">AR</a> </p>
-</footer><!-- /.post-info --><h3></h3>
+    <!-- Social -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Yuna06"/>
+    <meta property="og:description" content=""/>
+    <meta property="og:site_name" content="Yuna06" />
+    <meta property="og:url" content=""/>
+    <meta property="og:image" content="http://www.gravatar.com/avatar/abcdefghijkl?s=240"/>
 
-<p style='margin-bottom:2em;'>
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Yuna06">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:url" content="">
+    <meta name="twitter:image" content="http://www.gravatar.com/avatar/abcdefghijkl?s=240">
 
-</p>
+    <!-- Feed -->
+    <link rel="alternate" type="application/rss+xml" href="http://johndoe.disqus.com/latest.rss" title="Yuna06 Comments RSS Feed">
 
-<h3></h3>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:regular,bold">
+    <link rel="stylesheet" type="text/css" href="/theme/css/w3.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/jqcloud.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/theme/css/pygments-highlight-github.css">
+    <link rel="stylesheet" type="text/css" href="/static/custom.css">
 
-<p style='margin-bottom:2em;'>
+    <!-- Icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
 
-</p>
+    <!-- JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/theme/js/jqcloud.min.js"></script>
+  </head>
 
-<h2>手の動きでAR空間上のブラウザを操作してみよう。</h2>
-<p>CoreMLとARKitの勉強をしたいと思い、両方を扱っている<a href="https://heartbeat.fritz.ai/building-a-gesture-based-interface-ios-app-with-core-ml-and-arkit-910b5c94da80">記事</a>を見つけたので今回はそちらをやっていきたいと思います。</p>
-<h2>機械学習モデルを使って手の動きで操作する</h2>
-<p>機械学習で手の動きを学習させて、それによってAR空間上のブラウザを操作します。</p>
-<h2>CoreMLとは？</h2>
-<p>本来機械学習をアプリに利用するときは自分でトレーニング用のデータセットを用意して、モデルを作らなければいけませんが、今回は完成したモデルを流用して、アプリに実装します。iPhoneアプリに実装するときは.mlmodelという学習済みモデルの入ったファイルをXcode上で呼び出して実現します。
-手の動きを学習したモデルは<a href="https://github.com/hanleyweng/Gesture-Recognition-101-CoreML-ARKit">こちら</a>です。</p>
-<h2>早速作ってみよう！</h2>
-<p>それではXcodeを立ち上げて、Augmented Reality Appというテンプレートを選択してください。
-terminalを立ち上げて、作ったプロジェクトの中で学習済みモデルの入ったレポジトリをクローンします。</p>
-<div class="highlight"><pre><span></span>git clone https://github.com/hanleyweng/Gesture-Recognition-101-CoreML-ARKit.git
-</pre></div>
+  <body>
+    <div class="w3-row w3-card w3-white">
+      <header id="header">
+        <a href="" id="header-logo" title="Home">y</a>
+        <nav id="header-menu">
+          <ul>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" style="font-weight: bold;"><a href="/category/ar.html">AR</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/fa-xiao.html">発酵</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/foxdot.html">foxdot</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/genome.html">genome</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/sonicpi.html">sonicpi</a></li>
+            <li class="w3-bottombar w3-border-white w3-hover-border-green" ><a href="/category/tong-ji.html">統計</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
 
 
-<p>example_5s0_hand_model.mlmodelというファイルのなかに学習済みモデルが入っています。XcodeのUI上でこのファイルをドラッグ&amp;ドロップします。</p>
-<h2>メインスクリプトを編集する。</h2>
-<p>ViewController.swiftを開きます。テンプレートでたくさんコードが並んでいますが、不必要なものを消します。viewWillAppearとviewWillDisappearは必要ですが、そのほかのスクリプトを消しておきます。</p>
-<p><img alt="写真" src="image/Screen Shot 2019-04-01 at 17.11.11.png"></p>                </article>
-            </aside><!-- /#featured -->
-        <section id="extras" class="body">
-                <div class="blogroll">
-                        <h2>links</h2>
-                        <ul>
-                            <li><a href="http://getpelican.com/">Pelican</a></li>
-                            <li><a href="http://python.org/">Python.org</a></li>
-                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
-                            <li><a href="#">You can modify those links in your config file</a></li>
-                        </ul>
-                </div><!-- /.blogroll -->
-                <div class="social">
-                        <h2>social</h2>
-                        <ul>
+    <br><br><br>
 
-                            <li><a href="#">You can add links in your config file</a></li>
-                            <li><a href="#">Another social link</a></li>
-                        </ul>
-                </div><!-- /.social -->
-        </section><!-- /#extras -->
+    <div class="w3-container col-main w3-center">
+      <h2>AR</h2>
+    </div>
 
-        <footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
-                </address><!-- /#about -->
 
-                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
-        </footer><!-- /#contentinfo -->
 
-</body>
+    <br><br><br>
+
+    <section id="listing">
+      <article class="w3-container w3-card-2 w3-white col-main">
+        <header>
+          <h2><a href="/ar_gesture.html"></a></h2>
+          <div class="post-info">
+            <div class="w3-opacity w3-margin-right w3-margin-bottom" style="flex-grow: 1;">
+              <span><time datetime="2019-03-25T23:00:00+09:00">Mon 25 March 2019</time> in <a href="/category/ar.html" title="All articles in category AR">AR</a></span>
+            </div>
+            <div class="w3-margin-right">
+              <span class="w3-tag w3-light-grey w3-text-green w3-hover-green">
+                <a href="/tag/ar.html" title="All articles with Ar tag">#AR</a>
+              </span>
+            </div>
+          </div>
+        </header>
+
+        <div class="entry-content">
+          
+        </div>
+
+        <footer>
+          <a class="w3-btn w3-green w3-right" href="/ar_gesture.html">Read &#10093;</a>
+        </footer>
+      </article>
+
+      <br><br><br>
+
+
+
+    </section>
+
+
+    <footer id="footer">
+      <div id="footer-copyright" class="w3-center w3-small w3-text-grey w3-padding-48">
+        <span>
+          &copy;
+          2009&dash;2019          yuna06
+        </span>
+      </div>
+    </footer>
+
+    <!-- Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-12345678-9', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+  </body>
 </html>
