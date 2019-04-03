@@ -24,7 +24,7 @@ h2 {
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 100px;
     padding-left: 11px;
     border-left: solid 10px #2795b6;
     margin-left: 3px;
@@ -130,6 +130,7 @@ ul.social li a:hover {
     margin: 0;
     padding: 0;
 }
+
 /*
 <div class="box11">
     <p></p>
